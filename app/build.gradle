@@ -19,6 +19,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        compose true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,4 +36,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+dependencies {
+    implementation project(':core:network')
+    implementation project(':features:shop')
+
+    implementation deps.compose.ui
+    implementation deps.compose.ui_tooling
+    implementation deps.compose.foundation
+    implementation deps.compose.material
+    implementation deps.compose.activities
 }

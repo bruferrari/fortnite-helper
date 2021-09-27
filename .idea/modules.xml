@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Fortnite_Helper.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Fortnite_Helper.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/Fortnite_Helper.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/Fortnite_Helper.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/network/Fortnite_Helper.core.network.iml" filepath="$PROJECT_DIR$/.idea/modules/core/network/Fortnite_Helper.core.network.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/features/Fortnite_Helper.features.iml" filepath="$PROJECT_DIR$/.idea/modules/features/Fortnite_Helper.features.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/features/shop/Fortnite_Helper.features.shop.iml" filepath="$PROJECT_DIR$/.idea/modules/features/shop/Fortnite_Helper.features.shop.iml" />
     </modules>
   </component>
 </project>
