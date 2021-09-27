@@ -25,9 +25,7 @@ import androidx.compose.ui.unit.sp
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-
-        }
+        setContent { SplashScreen() }
     }
 
     @Preview
