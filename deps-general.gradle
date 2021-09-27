@@ -1,0 +1,15 @@
+dependencies {
+    implementation deps.kotlin
+    implementation deps.core_ktx
+    implementation deps.appcompat
+    implementation deps.material
+
+    //region dependency injection
+    implementation deps.koin.core
+
+    // region tests
+    testImplementation deps.junit.core
+    testImplementation deps.koin.test
+    androidTestImplementation deps.junit.ext
+    androidTestImplementation deps.espresso.core
+}

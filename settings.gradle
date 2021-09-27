@@ -1,0 +1,3 @@
+rootProject.name = "Fortnite Helper"
+include ':app'
+include ':core:network'
