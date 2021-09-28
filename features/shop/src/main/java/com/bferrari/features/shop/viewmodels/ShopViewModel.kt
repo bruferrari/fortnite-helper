@@ -16,7 +16,7 @@ class ShopViewModel(
 ) : ViewModel() {
 
    private val _shopState = MutableStateFlow<ShopUiState>(ShopUiState.Loading)
-   val shopState: StateFlow<ShopUiState> = _shopState
+   val shopState: StateFlow<ShopUiState> get() = _shopState
 
    init {
        viewModelScope.launch {
