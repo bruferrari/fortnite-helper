@@ -4,6 +4,15 @@ dependencies {
     implementation deps.appcompat
     implementation deps.material
 
+    //region logging
+    implementation deps.timber
+    //endregion
+
+    //region navigation
+    implementation deps.navigation.fragment_ktx
+    implementation deps.navigation.ui_ktx
+    //endregion
+
     // region network
     implementation deps.retrofit.core
     implementation deps.kotlin.serialization

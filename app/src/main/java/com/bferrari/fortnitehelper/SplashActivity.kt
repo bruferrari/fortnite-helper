@@ -1,6 +1,9 @@
 package com.bferrari.fortnitehelper
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.*
@@ -23,6 +26,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.bferrari.features.shop.ui.ShopActivity
 
 @ExperimentalAnimationApi
 class SplashActivity : AppCompatActivity() {
@@ -30,7 +34,15 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContent { SplashScreen() }
+        setContent {
+            SplashScreen()
+            // Call navigation instead
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = Intent(this, ShopActivity::class.java)
+            startActivity(intent)
+        }, 1000)
     }
 
     @Preview

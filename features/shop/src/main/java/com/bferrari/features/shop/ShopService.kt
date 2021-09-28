@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface ShopService {
 
     @GET("v2/shop/br")
-    fun getCurrentShopItems(): ShopResponse
+    suspend fun getCurrentShopItems(): ShopResponse
 }

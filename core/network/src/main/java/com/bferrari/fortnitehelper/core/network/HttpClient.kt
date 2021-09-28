@@ -9,6 +9,11 @@ import retrofit2.Retrofit
 
 object HttpClient {
 
+    val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
+
     fun getHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -25,9 +30,9 @@ object HttpClient {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(getHttpClient())
-            .addConverterFactory(Json.asConverterFactory(contentType))
-            .build()
-            .create(T::class.java)
+            .addConverterFactory(
+                json.asConverterFactory(contentType))
+                .build()
+                .create(T::class.java)
+            }
     }
-
-}

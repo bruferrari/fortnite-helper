@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.32'
 }
 
+apply plugin: 'kotlinx-serialization'
 apply from: '../../deps-general.gradle'
 
 android {
@@ -15,6 +17,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
     }
 
     buildTypes {
@@ -38,4 +44,6 @@ dependencies {
     implementation deps.compose.foundation
     implementation deps.compose.material
     implementation deps.compose.activities
+    implementation deps.compose.navigation
+    implementation deps.lifecycle_runtime
 }
