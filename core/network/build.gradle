@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation deps.retrofit.core
     implementation deps.okhttp.core
     implementation deps.okhttp.logging
+    implementation deps.retrofit_kotlin_serialization_converter
 }

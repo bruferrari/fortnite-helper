@@ -4,13 +4,21 @@ dependencies {
     implementation deps.appcompat
     implementation deps.material
 
+    // region network
+    implementation deps.retrofit.core
+    implementation deps.kotlin.serialization
+    implementation deps.kotlin.serialization_json
+    //endregion
+
     //region dependency injection
     implementation deps.koin.core
     implementation deps.koin.android
+    //endregion
 
     // region tests
     testImplementation deps.junit.core
     testImplementation deps.koin.test
     androidTestImplementation deps.junit.ext
     androidTestImplementation deps.espresso.core
+    //endregion
 }
