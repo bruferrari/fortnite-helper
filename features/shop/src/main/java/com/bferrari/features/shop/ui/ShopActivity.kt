@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,6 +29,7 @@ import com.bferrari.features.shop.models.Rarity
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
+import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import org.koin.android.ext.android.inject
 
 class ShopActivity : AppCompatActivity() {
@@ -54,7 +54,10 @@ class ShopActivity : AppCompatActivity() {
     @Composable
     private fun RenderList(items: List<ShopItem>?) {
         if (items == null) return
-        ShopItemsList(items)
+
+        ZeroPointDesignSystem {
+            ShopItemsList(items)
+        }
     }
 
     @Composable
@@ -99,7 +102,7 @@ class ShopActivity : AppCompatActivity() {
         fontFamily = FontFamily(
             Font(R.font.fortnite, FontWeight.Normal)
         ),
-        color = colorResource(id = R.color.grey),
+        color = colorResource(id = R.color.gray),
         fontSize = size
     )
 

@@ -57,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(id = R.color.fortnite_primary))
+                .background(colorResource(id = R.color.purple_light))
         )
 
         AnimatedVisibility(
@@ -81,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
 
         val textStyle: TextStyle = LocalTextStyle.current.copy(
             fontFamily = fortniteFont,
-            color = colorResource(R.color.grey),
+            color = colorResource(R.color.gray),
         )
 
         Column(

@@ -7,6 +7,10 @@ apply from: '../../deps-general.gradle'
 apply from: '../../config-android.gradle'
 
 android {
+    buildFeatures {
+        compose true
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
