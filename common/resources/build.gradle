@@ -14,3 +14,12 @@ android {
         }
     }
 }
+
+dependencies {
+    api deps.compose.ui
+    api deps.compose.ui_tooling
+    api deps.compose.foundation
+    api deps.compose.material
+    api deps.compose.activities
+    api deps.compose.navigation
+}

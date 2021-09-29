@@ -25,11 +25,5 @@ dependencies {
     implementation project(':core:network')
     implementation project(':common:resources')
 
-    implementation deps.compose.ui
-    implementation deps.compose.ui_tooling
-    implementation deps.compose.foundation
-    implementation deps.compose.material
-    implementation deps.compose.activities
-    implementation deps.compose.navigation
     implementation deps.lifecycle_runtime
 }

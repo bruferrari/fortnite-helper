@@ -23,10 +23,5 @@ android {
 dependencies {
     implementation project(':core:network')
     implementation project(':features:shop')
-
-    implementation deps.compose.ui
-    implementation deps.compose.ui_tooling
-    implementation deps.compose.foundation
-    implementation deps.compose.material
-    implementation deps.compose.activities
+    implementation project(':common:resources')
 }
