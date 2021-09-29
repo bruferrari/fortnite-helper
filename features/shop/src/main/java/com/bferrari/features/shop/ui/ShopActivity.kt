@@ -7,17 +7,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.bferrari.features.shop.models.Entry
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.bferrari.common.resources.R
+import com.bferrari.features.shop.models.Rarity
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
@@ -34,17 +42,17 @@ class ShopActivity : AppCompatActivity() {
             val state by viewModel.shopState.collectAsState()
 
             when(val shopState: ShopUiState = state) {
-                is ShopUiState.Success -> renderList(shopState.shopResponse.data?.featured?.getItems())
-                is ShopUiState.Error -> displayError()
-                is ShopUiState.Loading -> displayLoading()
+                is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.getItems())
+                is ShopUiState.Error -> DisplayError()
+                is ShopUiState.Loading -> DisplayLoading()
             }
         }
     }
 
-    @Composable
-    private fun renderList(items: List<ShopItem>?) {
-        if (items == null) return
 
+    @Composable
+    private fun RenderList(items: List<ShopItem>?) {
+        if (items == null) return
         ShopItemsList(items)
     }
 
@@ -62,27 +70,76 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
+    @Preview(showSystemUi = true)
     @Composable
-    fun ShopItem(item: ShopItem) {
+    fun ShopItem(
+        @PreviewParameter(SampleShopItemProvider::class) item: ShopItem
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
+                modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
                 text = item.name,
-
+                style = textStyle()
             )
-            Text(text = item.description)
+            Text(
+                modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
+                text = item.description,
+                style = textStyle(size = 16.sp)
+            )
+            Divider()
         }
     }
 
     @Composable
-    private fun displayLoading() {
-        CircularProgressIndicator()
+    private fun textStyle(size: TextUnit = 24.sp) = LocalTextStyle.current.copy(
+        fontFamily = FontFamily(
+            Font(R.font.fortnite, FontWeight.Normal)
+        ),
+        color = colorResource(id = R.color.grey),
+        fontSize = size
+    )
+
+    @Composable
+    private fun DisplayLoading() {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.primary),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+
+            CircularProgressIndicator(
+                modifier = Modifier.padding(all = 16.dp),
+                color = Color.Cyan
+            )
+        }
     }
 
     @Composable
-    private fun displayError() {
+    private fun DisplayError() {
         Text("error")
+    }
+
+    class SampleShopItemProvider: PreviewParameterProvider<ShopItem> {
+        private val first = ShopItem(
+            "item 1",
+            "item description 1",
+            Rarity("legendary", "Legendary")
+        )
+
+        private val second = ShopItem(
+            "item 2",
+            "item description 2",
+            Rarity("epic", "Epic")
+        )
+
+        override val values: Sequence<ShopItem>
+            get() = sequenceOf(first, second)
+
+        override val count: Int
+            get() = values.count()
     }
 }

@@ -21,4 +21,7 @@ dependencies {
     implementation deps.okhttp.core
     implementation deps.okhttp.logging
     implementation deps.retrofit_kotlin_serialization_converter
+    api deps.kotlin.serialization_json
+    api deps.retrofit.core
+    api deps.kotlin.serialization
 }

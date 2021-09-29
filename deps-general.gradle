@@ -13,12 +13,6 @@ dependencies {
     implementation deps.navigation.ui_ktx
     //endregion
 
-    // region network
-    implementation deps.retrofit.core
-    implementation deps.kotlin.serialization
-    implementation deps.kotlin.serialization_json
-    //endregion
-
     //region dependency injection
     implementation deps.koin.core
     implementation deps.koin.android
