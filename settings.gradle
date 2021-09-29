@@ -2,3 +2,4 @@ rootProject.name = "Fortnite Helper"
 include ':app'
 include ':core:network'
 include ':features:shop'
+include ':common:resources'

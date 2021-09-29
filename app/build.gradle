@@ -4,20 +4,9 @@ plugins {
 }
 
 apply from: '../deps-general.gradle'
+apply from: '../config-android.gradle'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
-
-    defaultConfig {
-        applicationId "com.bferrari.fortnitehelper"
-        minSdkVersion 23
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
 
     buildFeatures {
         compose true
@@ -28,13 +17,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 }
 

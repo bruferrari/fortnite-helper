@@ -17,7 +17,17 @@ import kotlinx.serialization.Serializable
 @Serializable data class ItemType(
     val name: String? = null,
     val entries: List<Entry>
-)
+) {
+    fun getItems(): List<ShopItem> {
+        val items = mutableListOf<ShopItem>()
+
+        entries.forEach { entry ->
+            items.addAll(entry.items)
+        }
+
+        return items
+    }
+}
 
 @Serializable data class Entry(
     val items: List<ShopItem>
