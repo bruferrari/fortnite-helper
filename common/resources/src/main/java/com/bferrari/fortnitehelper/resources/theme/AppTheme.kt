@@ -13,12 +13,12 @@ import androidx.compose.ui.unit.sp
 import com.bferrari.common.resources.R
 
 private val lightColors = lightColors(
-    primary = ThemeColor.PurpleLight,
-    secondary = ThemeColor.PurpleDark,
-    background = ThemeColor.Black,
-    onBackground = ThemeColor.Gray,
-    surface = ThemeColor.Teal200,
-    onSurface = ThemeColor.Teal700
+    primary = Colors.PurpleLight,
+    secondary = Colors.PurpleDark,
+    background = Colors.Black,
+    onBackground = Colors.Gray,
+    surface = Colors.Teal200,
+    onSurface = Colors.Teal700
 )
 
 // needs to be adapted
@@ -37,14 +37,14 @@ object ZeroPoint : DesignSystem {
     override val title: TextStyle
         get() = TextStyle(
             fontFamily = fortniteFontFamily,
-            color = ThemeColor.Gray,
+            color = Colors.Gray,
             fontSize = 24.sp
         )
 
     override val subtitle: TextStyle
         get() = TextStyle(
             fontFamily = fortniteFontFamily,
-            color = ThemeColor.Gray,
+            color = Colors.Gray,
             fontSize = 16.sp
         )
 }

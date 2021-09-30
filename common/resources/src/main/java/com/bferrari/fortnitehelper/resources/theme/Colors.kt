@@ -2,7 +2,7 @@ package com.bferrari.fortnitehelper.resources.theme
 
 import androidx.compose.ui.graphics.Color
 
-object ThemeColor {
+object Colors {
     val White = Color(0xFFFFFFFF)
     val Black = Color(0xFF000000)
     val Gray = Color(0xFFEEEEEE)
