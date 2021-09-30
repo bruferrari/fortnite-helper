@@ -2,7 +2,6 @@ package com.bferrari.fortnitehelper.resources.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
@@ -16,14 +15,7 @@ private val lightColors = lightColors(
 )
 
 // needs to be adapted
-private val darkColors = darkColors(
-    primary = ThemeColor.PurpleLight,
-    secondary = ThemeColor.PurpleDark,
-    background = ThemeColor.Black,
-    onBackground = ThemeColor.Gray,
-    surface = ThemeColor.Teal200,
-    onSurface = ThemeColor.Teal700
-)
+private val darkColors = lightColors
 
 @Composable
 fun ZeroPointDesignSystem(

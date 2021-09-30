@@ -40,12 +40,14 @@ class ShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val state by viewModel.shopState.collectAsState()
+            ZeroPointDesignSystem {
+                val state by viewModel.shopState.collectAsState()
 
-            when(val shopState: ShopUiState = state) {
-                is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
-                is ShopUiState.Error -> DisplayError()
-                is ShopUiState.Loading -> DisplayLoading()
+                when(val shopState: ShopUiState = state) {
+                    is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
+                    is ShopUiState.Error -> DisplayError()
+                    is ShopUiState.Loading -> DisplayLoading()
+                }
             }
         }
     }
@@ -53,11 +55,8 @@ class ShopActivity : AppCompatActivity() {
 
     @Composable
     private fun RenderList(items: List<ShopItem>?) {
-        if (items == null) return
-
-        ZeroPointDesignSystem {
-            ShopItemsList(items)
-        }
+        if (items == null) return //TODO: maybe a blank slate?
+        ShopItemsList(items)
     }
 
     @Composable
@@ -109,7 +108,9 @@ class ShopActivity : AppCompatActivity() {
     @Composable
     private fun DisplayLoading() {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.primary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -122,7 +123,11 @@ class ShopActivity : AppCompatActivity() {
 
     @Composable
     private fun DisplayError() {
-        Text("error")
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text("ops, something got wrong!")
+        }
     }
 
     class SampleShopItemProvider: PreviewParameterProvider<ShopItem> {
