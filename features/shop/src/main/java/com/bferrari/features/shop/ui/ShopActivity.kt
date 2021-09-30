@@ -26,6 +26,7 @@ import com.bferrari.features.shop.data.mappers.toShopItemList
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
+import com.bferrari.fortnitehelper.resources.components.AppBar
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import org.koin.android.ext.android.inject
 
@@ -54,16 +55,7 @@ class ShopActivity : AppCompatActivity() {
             is ShopUiState.Loading -> DisplayLoading()
         }
 
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Fortnite Companion",
-                    style = MaterialTheme.typography.h1
-                )
-            },
-            backgroundColor = MaterialTheme.colors.secondary,
-            contentColor = MaterialTheme.colors.onBackground,
-        )
+        AppBar()
     }
 
     @Composable
