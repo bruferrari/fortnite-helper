@@ -20,5 +20,5 @@ data class Rarity(
 data class Images(
     val smallIcon: String? = null,
     val icon: String? = null,
-    val url: String? = null
+    val featured: String? = null
 )

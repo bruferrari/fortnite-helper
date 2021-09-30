@@ -7,7 +7,7 @@ fun ShopItemResponse.toDomain() = ShopItem(
     name = name,
     description = description,
     rarity = rarity.displayValue,
-    imageUrl = images?.url,
+    imageUrl = images?.featured,
     imageIcon = images?.icon
 )
 

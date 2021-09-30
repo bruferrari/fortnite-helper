@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.hide()
+
         setContent {
             ZeroPointDesignSystem {
                 SplashScreen()

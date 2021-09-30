@@ -26,4 +26,6 @@ dependencies {
     implementation project(':common:resources')
 
     implementation deps.lifecycle_runtime
+    implementation deps.coil.core
+    implementation deps.coil.compose
 }

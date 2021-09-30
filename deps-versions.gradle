@@ -19,7 +19,8 @@ versions.retrofit_kotlin_serialization_converter = '0.8.0'
 versions.navigation = '2.3.5'
 versions.compose_navigation = '2.4.0-alpha09'
 versions.lifecycle_ktx = '2.4.0-beta01'
-versions.timber = "5.0.1"
+versions.timber = '5.0.1'
+versions.coil = '1.3.2'
 
 ext.versions = versions
 
@@ -79,5 +80,10 @@ def navigation = [:]
 navigation.fragment_ktx = "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
 navigation.ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 deps.navigation = navigation
+
+def coil = [:]
+coil.core = "io.coil-kt:coil:$versions.coil"
+coil.compose = "io.coil-kt:coil-compose:$versions.coil"
+deps.coil = coil
 
 ext.deps = deps

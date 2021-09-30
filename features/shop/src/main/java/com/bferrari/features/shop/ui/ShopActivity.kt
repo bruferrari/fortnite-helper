@@ -3,6 +3,7 @@ package com.bferrari.features.shop.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,17 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.bferrari.common.resources.R
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.bferrari.features.shop.data.mappers.toShopItemList
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
@@ -41,17 +38,33 @@ class ShopActivity : AppCompatActivity() {
 
         setContent {
             ZeroPointDesignSystem {
-                val state by viewModel.shopState.collectAsState()
-
-                when(val shopState: ShopUiState = state) {
-                    is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
-                    is ShopUiState.Error -> DisplayError()
-                    is ShopUiState.Loading -> DisplayLoading()
-                }
+                ShopScreen()
             }
         }
     }
 
+    @Preview
+    @Composable
+    fun ShopScreen() {
+        val state by viewModel.shopState.collectAsState()
+
+        when(val shopState: ShopUiState = state) {
+            is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
+            is ShopUiState.Error -> DisplayError()
+            is ShopUiState.Loading -> DisplayLoading()
+        }
+
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Fortnite Companion",
+                    style = MaterialTheme.typography.h1
+                )
+            },
+            backgroundColor = MaterialTheme.colors.secondary,
+            contentColor = MaterialTheme.colors.onBackground,
+        )
+    }
 
     @Composable
     private fun RenderList(items: List<ShopItem>?) {
@@ -73,6 +86,7 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoilApi
     @Preview(showSystemUi = true)
     @Composable
     fun ShopItem(
@@ -82,28 +96,27 @@ class ShopActivity : AppCompatActivity() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
+            Image(
+                painter = rememberImagePainter(item.imageUrl ?: item.imageIcon),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f),
+                contentScale = ContentScale.FillBounds
+            )
             Text(
                 modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
                 text = item.name,
-                style = textStyle()
+                style = MaterialTheme.typography.h1
             )
             Text(
                 modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
                 text = item.description,
-                style = textStyle(size = 16.sp)
+                style = MaterialTheme.typography.subtitle1
             )
             Divider()
         }
     }
-
-    @Composable
-    private fun textStyle(size: TextUnit = 24.sp) = LocalTextStyle.current.copy(
-        fontFamily = FontFamily(
-            Font(R.font.fortnite, FontWeight.Normal)
-        ),
-        color = colorResource(id = R.color.gray),
-        fontSize = size
-    )
 
     @Composable
     private fun DisplayLoading() {
@@ -123,8 +136,10 @@ class ShopActivity : AppCompatActivity() {
 
     @Composable
     private fun DisplayError() {
-        Box(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("ops, something got wrong!")
         }
