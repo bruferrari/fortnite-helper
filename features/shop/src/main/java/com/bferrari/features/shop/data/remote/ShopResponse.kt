@@ -1,4 +1,4 @@
-package com.bferrari.features.shop.models
+package com.bferrari.features.shop.data.remote
 
 import kotlinx.serialization.Serializable
 
@@ -18,17 +18,19 @@ import kotlinx.serialization.Serializable
     val name: String? = null,
     val entries: List<Entry>
 ) {
-    fun getItems(): List<ShopItem> {
-        val items = mutableListOf<ShopItem>()
+    val items: List<ShopItemResponse> get() = buildItems()
+
+    private fun buildItems(): List<ShopItemResponse> {
+        val items = mutableListOf<ShopItemResponse>()
 
         entries.forEach { entry ->
             items.addAll(entry.items)
         }
 
-        return items
+        return items.toList()
     }
 }
 
 @Serializable data class Entry(
-    val items: List<ShopItem>
+    val items: List<ShopItemResponse>
 )

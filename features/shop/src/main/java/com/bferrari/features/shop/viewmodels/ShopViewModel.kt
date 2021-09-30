@@ -3,7 +3,7 @@ package com.bferrari.features.shop.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bferrari.features.shop.data.ShopDataSource
-import com.bferrari.features.shop.models.ShopResponse
+import com.bferrari.features.shop.data.remote.ShopResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch

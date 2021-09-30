@@ -1,7 +1,7 @@
 package com.bferrari.features.shop.data
 
 import com.bferrari.features.shop.ShopService
-import com.bferrari.features.shop.models.ShopResponse
+import com.bferrari.features.shop.data.remote.ShopResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -1,6 +1,7 @@
 package com.bferrari.fortnitehelper
 
 import android.app.Application
+import timber.log.Timber
 
 class AppApplication : Application() {
 
@@ -8,5 +9,12 @@ class AppApplication : Application() {
         super.onCreate()
 
         DIManager.start()
+        timberPlant()
+    }
+
+    private fun timberPlant() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

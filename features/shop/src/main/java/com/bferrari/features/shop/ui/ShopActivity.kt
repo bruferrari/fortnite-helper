@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bferrari.common.resources.R
-import com.bferrari.features.shop.models.Rarity
+import com.bferrari.features.shop.data.mappers.toShopItemList
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
@@ -43,7 +43,7 @@ class ShopActivity : AppCompatActivity() {
             val state by viewModel.shopState.collectAsState()
 
             when(val shopState: ShopUiState = state) {
-                is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.getItems())
+                is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
                 is ShopUiState.Error -> DisplayError()
                 is ShopUiState.Loading -> DisplayLoading()
             }
@@ -109,9 +109,7 @@ class ShopActivity : AppCompatActivity() {
     @Composable
     private fun DisplayLoading() {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.primary),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -129,15 +127,19 @@ class ShopActivity : AppCompatActivity() {
 
     class SampleShopItemProvider: PreviewParameterProvider<ShopItem> {
         private val first = ShopItem(
-            "item 1",
-            "item description 1",
-            Rarity("legendary", "Legendary")
+            name = "item 1",
+            description = "item description 1",
+            rarity = "Legendary",
+            imageIcon = "",
+            imageUrl = ""
         )
 
         private val second = ShopItem(
-            "item 2",
-            "item description 2",
-            Rarity("epic", "Epic")
+            name = "item 2",
+            description = "item description 2",
+            rarity = "Epic",
+            imageIcon = "",
+            imageUrl = ""
         )
 
         override val values: Sequence<ShopItem>
