@@ -10,4 +10,6 @@ object ThemeColor {
     val PurpleDark = Color(0xFF4A0072)
     val Teal200 = Color(0xFF03DAC5)
     val Teal700 = Color(0xFF018786)
+    val BlueGray900 = Color(0xFF263238)
+    val BlueGray900Light = Color(0xFF4F5B62)
 }

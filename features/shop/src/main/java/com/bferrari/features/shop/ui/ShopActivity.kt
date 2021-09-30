@@ -30,6 +30,7 @@ import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.AppBar
 import com.bferrari.fortnitehelper.resources.components.ErrorView
 import com.bferrari.fortnitehelper.resources.components.LoadingView
+import com.bferrari.fortnitehelper.resources.theme.ThemeColor
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import org.koin.android.ext.android.inject
 
@@ -90,8 +91,7 @@ class ShopActivity : AppCompatActivity() {
         @PreviewParameter(SampleShopItemProvider::class) item: ShopItem
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start
+            modifier = Modifier.fillMaxWidth()
         ) {
             Image(
                 painter = rememberImagePainter(item.imageUrl),
@@ -101,17 +101,29 @@ class ShopActivity : AppCompatActivity() {
                     .aspectRatio(1f),
                 contentScale = ContentScale.FillBounds
             )
-            Text(
-                modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
-                text = item.name,
-                style = MaterialTheme.typography.h1
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = ThemeColor.BlueGray900),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
+                    text = item.name,
+                    style = MaterialTheme.typography.h1
+                )
+                Text(
+                    modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
+                    text = item.description,
+                    style = MaterialTheme.typography.subtitle1
+                )
+            }
+            Divider(
+                color = ThemeColor.BlueGray900Light,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(10.dp)
             )
-            Text(
-                modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
-                text = item.description,
-                style = MaterialTheme.typography.subtitle1
-            )
-            Divider()
         }
     }
 
