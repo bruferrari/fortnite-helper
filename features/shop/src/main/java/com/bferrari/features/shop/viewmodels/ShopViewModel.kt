@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bferrari.features.shop.data.ShopDataSource
 import com.bferrari.features.shop.data.remote.ShopResponse
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -18,17 +15,27 @@ class ShopViewModel(
    private val _shopState = MutableStateFlow<ShopUiState>(ShopUiState.Loading)
    val shopState: StateFlow<ShopUiState> get() = _shopState
 
-   init {
-       viewModelScope.launch {
-          shopRepository.getShopItems()
-             .catch { cause ->
-                Timber.e(cause)
-                _shopState.value = ShopUiState.Error(cause)
-             }
-             .collect { response ->
-                _shopState.value = ShopUiState.Success(response)
-             }
-       }
+   private val _isRefreshing = MutableStateFlow(false)
+   val isRefreshing get() = _isRefreshing.asStateFlow()
+
+   init { fetchShopItems() }
+
+   fun fetchShopItems() {
+      viewModelScope.launch {
+         shopRepository.getShopItems()
+            .onStart {
+               _isRefreshing.emit(true)
+            }
+            .catch { cause ->
+               _isRefreshing.emit(false)
+               Timber.e(cause)
+               _shopState.value = ShopUiState.Error(cause)
+            }
+            .collect { response ->
+               _isRefreshing.emit(false)
+               _shopState.value = ShopUiState.Success(response)
+            }
+      }
    }
 }
 

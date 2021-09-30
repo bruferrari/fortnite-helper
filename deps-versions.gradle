@@ -21,6 +21,7 @@ versions.compose_navigation = '2.4.0-alpha09'
 versions.lifecycle_ktx = '2.4.0-beta01'
 versions.timber = '5.0.1'
 versions.coil = '1.3.2'
+versions.accompanist = '0.18.0'
 
 ext.versions = versions
 
@@ -85,5 +86,9 @@ def coil = [:]
 coil.core = "io.coil-kt:coil:$versions.coil"
 coil.compose = "io.coil-kt:coil-compose:$versions.coil"
 deps.coil = coil
+
+def accompanist = [:]
+accompanist.swipe_refresh = "com.google.accompanist:accompanist-swiperefresh:$versions.accompanist"
+deps.accompanist = accompanist
 
 ext.deps = deps

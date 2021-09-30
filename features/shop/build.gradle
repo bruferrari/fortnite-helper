@@ -28,4 +28,5 @@ dependencies {
     implementation deps.lifecycle_runtime
     implementation deps.coil.core
     implementation deps.coil.compose
+    implementation deps.accompanist.swipe_refresh
 }
