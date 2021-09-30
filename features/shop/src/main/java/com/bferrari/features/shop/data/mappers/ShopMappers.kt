@@ -7,8 +7,7 @@ fun ShopItemResponse.toDomain() = ShopItem(
     name = name,
     description = description,
     rarity = rarity.displayValue,
-    imageUrl = images?.featured,
-    imageIcon = images?.icon
+    imageUrl = images?.featured ?: images?.icon,
 )
 
 fun List<ShopItemResponse>.toShopItemList() = map { it.toDomain() }

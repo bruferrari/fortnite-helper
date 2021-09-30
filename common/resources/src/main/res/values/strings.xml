@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fortnite Companion</string>
+    <string name="default_error_msg">ops, something got wrong!</string>
 </resources>

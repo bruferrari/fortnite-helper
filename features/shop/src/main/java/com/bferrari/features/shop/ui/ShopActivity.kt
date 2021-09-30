@@ -8,13 +8,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -27,6 +28,8 @@ import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.AppBar
+import com.bferrari.fortnitehelper.resources.components.ErrorView
+import com.bferrari.fortnitehelper.resources.components.LoadingView
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import org.koin.android.ext.android.inject
 
@@ -51,8 +54,8 @@ class ShopActivity : AppCompatActivity() {
 
         when(val shopState: ShopUiState = state) {
             is ShopUiState.Success -> RenderList(shopState.shopResponse.data?.featured?.items?.toShopItemList())
-            is ShopUiState.Error -> DisplayError()
-            is ShopUiState.Loading -> DisplayLoading()
+            is ShopUiState.Error -> ErrorView()
+            is ShopUiState.Loading -> LoadingView()
         }
 
         AppBar()
@@ -71,7 +74,9 @@ class ShopActivity : AppCompatActivity() {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary)
         )
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.padding(top = 56.dp)
+        ) {
             items(shopItems) { item ->
                 ShopItem(item)
             }
@@ -89,7 +94,7 @@ class ShopActivity : AppCompatActivity() {
             horizontalAlignment = Alignment.Start
         ) {
             Image(
-                painter = rememberImagePainter(item.imageUrl ?: item.imageIcon),
+                painter = rememberImagePainter(item.imageUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,39 +115,11 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
-    @Composable
-    private fun DisplayLoading() {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.primary),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-
-            CircularProgressIndicator(
-                modifier = Modifier.padding(all = 16.dp),
-                color = Color.Cyan
-            )
-        }
-    }
-
-    @Composable
-    private fun DisplayError() {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("ops, something got wrong!")
-        }
-    }
-
     class SampleShopItemProvider: PreviewParameterProvider<ShopItem> {
         private val first = ShopItem(
             name = "item 1",
             description = "item description 1",
             rarity = "Legendary",
-            imageIcon = "",
             imageUrl = ""
         )
 
@@ -150,7 +127,6 @@ class ShopActivity : AppCompatActivity() {
             name = "item 2",
             description = "item description 2",
             rarity = "Epic",
-            imageIcon = "",
             imageUrl = ""
         )
 
