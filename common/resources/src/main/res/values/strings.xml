@@ -2,5 +2,11 @@
     <string name="app_name">Fortnite Companion</string>
     <string name="app_title">Fortnite</string>
     <string name="app_subtitle">Companion</string>
-    <string name="default_error_msg">ops, something got wrong!</string>
+    <string name="default_error_msg">Ops, something got wrong!</string>
+    <string name="placeholder_no_title">No Title</string>
+    <string name="placeholder_no_description">No Description</string>
+
+    <!-- pricing -->
+    <string name="price_regular_with_discount">Was %d</string>
+    <string name="price_final_with_discount">Now %d</string>
 </resources>

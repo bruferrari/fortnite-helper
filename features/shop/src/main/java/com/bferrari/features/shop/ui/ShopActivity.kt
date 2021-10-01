@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -24,9 +25,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.bferrari.features.shop.R
 import com.bferrari.features.shop.data.mappers.toShopEntryList
 import com.bferrari.features.shop.data.remote.Data
-import com.bferrari.features.shop.data.remote.Entry
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
@@ -72,8 +73,8 @@ class ShopActivity : AppCompatActivity() {
         if (data == null) return // render a blank slate?
 
         val featuredItems = data.featured?.entries?.toShopEntryList()
-        val dailyItems = data.daily?.entries
-        val specialItems = data.specialFeatured?.entries
+        val dailyItems = data.daily?.entries?.toShopEntryList()
+        val specialItems = data.specialFeatured?.entries?.toShopEntryList()
         
         //TODO: render 3 types of different lists (featured, daily, special)
         EntriesList(entries = featuredItems ?: emptyList())
@@ -131,12 +132,12 @@ class ShopActivity : AppCompatActivity() {
             ) {
                 Text(
                     modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
-                    text = entry.title ?: "No Title",
+                    text = entry.title ?: stringResource(id = R.string.placeholder_no_title),
                     style = MaterialTheme.typography.h1
                 )
                 Text(
                     modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
-                    text = entry.description ?: "No Description",
+                    text = entry.description ?: stringResource(id = R.string.placeholder_no_description),
                     style = MaterialTheme.typography.subtitle1
                 )
             }
@@ -145,6 +146,8 @@ class ShopActivity : AppCompatActivity() {
 
     @Composable
     fun PriceView(price: Price) {
+        val hasDiscount: Boolean = price.final != price.regular
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -152,22 +155,29 @@ class ShopActivity : AppCompatActivity() {
                 .background(color = Colors.BlueGray900Light),
             horizontalArrangement = Arrangement.End
         ) {
-            Text(
-                modifier = Modifier.padding(start = 8.dp, end = 4.dp),
-                text = "Was ${price.regular}",
-                style = MaterialTheme.typography.subtitle1,
-                textAlign = TextAlign.Center
-            )
+            if (hasDiscount) {
+                Text(
+                    modifier = Modifier.padding(start = 8.dp, end = 4.dp),
+                    text = stringResource(id = R.string.price_regular_with_discount, price.regular),
+                    style = MaterialTheme.typography.subtitle1,
+                    textAlign = TextAlign.Center
+                )
+            }
+
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 8.dp),
-                text = "Now ${price.final}",
+                text = if (hasDiscount) stringResource(
+                    id = R.string.price_final_with_discount,
+                    price.final
+                ) else "${price.final}",
                 style = MaterialTheme.typography.subtitle1,
             )
+
             Image(
                 modifier = Modifier
                     .size(30.dp)
                     .padding(end = 8.dp),
-                painter = painterResource(id = com.bferrari.features.shop.R.drawable.vbuck),
+                painter = painterResource(id = R.drawable.vbuck),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
