@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation project(':core:network')
     implementation project(':common:resources')
+    implementation project(':common:utils')
 
     implementation deps.lifecycle_runtime
     implementation deps.coil.core

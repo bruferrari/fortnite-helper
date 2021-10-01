@@ -1,4 +1,4 @@
-package com.bferrari.features.shop.utils
+package com.bferrari.common.utils
 
 inline fun <reified T> List<T>.concat(
     vararg lists: List<T>

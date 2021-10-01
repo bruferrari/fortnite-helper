@@ -2,11 +2,11 @@ package com.bferrari.features.shop.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bferrari.common.utils.concat
 import com.bferrari.features.shop.data.ShopDataSource
 import com.bferrari.features.shop.data.mappers.toShopEntryList
 import com.bferrari.features.shop.data.remote.ShopResponse
 import com.bferrari.features.shop.models.ShopEntry
-import com.bferrari.features.shop.utils.concat
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
