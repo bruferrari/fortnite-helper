@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,9 +34,7 @@ import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.utils.toVBucksString
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
-import com.bferrari.fortnitehelper.resources.components.AppBar
-import com.bferrari.fortnitehelper.resources.components.ErrorView
-import com.bferrari.fortnitehelper.resources.components.LoadingView
+import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import org.koin.android.ext.android.inject
@@ -60,7 +59,7 @@ class ShopActivity : AppCompatActivity() {
     fun ShopScreen() {
         val state by viewModel.shopState.collectAsState()
 
-        when(val shopState: ShopUiState = state) {
+        when (val shopState: ShopUiState = state) {
             is ShopUiState.Success -> RenderList(shopState.shopResponse.data)
             is ShopUiState.Error -> ErrorView()
             is ShopUiState.Loading -> LoadingView()
@@ -103,6 +102,8 @@ class ShopActivity : AppCompatActivity() {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
+            EntryImageView(url = entry.imageUrl ?: "")
+            RarityView(entry)
             ItemIdentifierView(entry)
 
             PriceView(price = Price(
@@ -113,38 +114,52 @@ class ShopActivity : AppCompatActivity() {
     }
 
     @Composable
+    fun EntryImageView(url: String) {
+        Image(
+            painter = rememberImagePainter(url),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f),
+            contentScale = ContentScale.FillBounds
+        )
+    }
+
+    @Composable
     fun ItemIdentifierView(entry: ShopEntry) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Colors.BlueGray900),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = rememberImagePainter(entry.imageUrl),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                contentScale = ContentScale.FillBounds
+            Title(
+                modifier = Modifier.absolutePadding(
+                    left = 8.dp,
+                    top = 8.dp,
+                    bottom = if (entry.hasSubtitle) 0.dp else 8.dp
+                ),
+                text = entry.title ?: stringResource(id = R.string.placeholder_no_title)
             )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Colors.BlueGray900),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
-                    text = entry.title ?: stringResource(id = R.string.placeholder_no_title),
-                    style = MaterialTheme.typography.h1,
-                    maxLines = 1
-                )
-                Text(
+
+            if (entry.hasSubtitle) {
+                Subtitle(
                     modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
                     text = entry.description ?: stringResource(id = R.string.placeholder_no_description),
-                    style = MaterialTheme.typography.subtitle1,
-                    maxLines = 1
                 )
             }
         }
+    }
+
+    @Composable
+    fun RarityView(entry: ShopEntry) {
+        //TODO: get colors and build enumerator
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(8.dp)
+                .background(color = Colors.Teal700)
+        )
     }
 
     @Composable

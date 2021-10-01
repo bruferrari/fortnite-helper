@@ -11,4 +11,7 @@ data class ShopEntry(
     val regularPrice: Long,
     val finalPrice: Long,
     val bundle: Bundle? = null
-)
+) {
+    val hasSubtitle: Boolean
+        get() = title != description
+}
