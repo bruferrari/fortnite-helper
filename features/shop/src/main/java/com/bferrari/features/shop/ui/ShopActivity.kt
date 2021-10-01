@@ -37,6 +37,8 @@ import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.android.ext.android.inject
 
 @ExperimentalCoilApi
@@ -82,16 +84,23 @@ class ShopActivity : AppCompatActivity() {
     
     @Composable
     fun EntriesList(entries: List<ShopEntry>) {
+        val refreshingState by viewModel.isRefreshing.collectAsState()
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary)
         )
-        LazyColumn(
-            modifier = Modifier.padding(top = 56.dp)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = refreshingState),
+            onRefresh = { viewModel.fetchShopItems() }
         ) {
-            items(entries) { entry ->
-                EntryCell(entry = entry)
+            LazyColumn(
+                modifier = Modifier.padding(top = 56.dp)
+            ) {
+                items(entries) { entry ->
+                    EntryCell(entry = entry)
+                }
             }
         }
     }
