@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,8 +26,6 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.features.shop.R
-import com.bferrari.features.shop.data.mappers.toShopEntryList
-import com.bferrari.features.shop.data.remote.Data
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.utils.toVBucksString
@@ -63,24 +59,12 @@ class ShopActivity : AppCompatActivity() {
         val state by viewModel.shopState.collectAsState()
 
         when (val shopState: ShopUiState = state) {
-            is ShopUiState.Success -> RenderList(shopState.shopResponse.data)
+            is ShopUiState.Success -> EntriesList(entries = shopState.entries)
             is ShopUiState.Error -> ErrorView()
             is ShopUiState.Loading -> LoadingView()
         }
 
         AppBar()
-    }
-    
-    @Composable
-    fun RenderList(data: Data?) {
-        if (data == null) return // render a blank slate?
-
-        val featuredItems = data.featured?.entries?.toShopEntryList()
-        val dailyItems = data.daily?.entries?.toShopEntryList()
-        val specialItems = data.specialFeatured?.entries?.toShopEntryList()
-        
-        //TODO: render 3 types of different lists (featured, daily, special)
-        EntriesList(entries = featuredItems ?: emptyList())
     }
     
     @Composable
@@ -109,10 +93,11 @@ class ShopActivity : AppCompatActivity() {
     @Preview
     @Composable
     fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
+        //TODO: set placeholder image when there's nothing to load
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            EntryImageView(url = entry.imageUrl ?: "")
+            EntryImageView(url = entry.imageUrl ?: entry.iconUrl ?: "")
             RarityView(entry)
             ItemIdentifierView(entry)
 
