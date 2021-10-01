@@ -3,6 +3,7 @@ package com.bferrari.fortnitehelper.resources.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -22,7 +23,14 @@ private val lightColors = lightColors(
 )
 
 // needs to be adapted
-private val darkColors = lightColors
+private val darkColors = darkColors(
+    primary = Colors.PurpleLight,
+    secondary = Colors.PurpleDark,
+    background = Colors.Black,
+    onBackground = Colors.Gray,
+    surface = Colors.Teal200,
+    onSurface = Colors.Teal700
+)
 
 private val fortniteFontFamily = FontFamily(
     Font(R.font.fortnite, FontWeight.Normal)
