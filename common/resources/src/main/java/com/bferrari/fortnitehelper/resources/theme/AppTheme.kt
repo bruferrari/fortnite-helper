@@ -71,6 +71,7 @@ fun ZeroPointDesignSystem(
         colors = if (darkTheme) darkColors else lightColors,
         typography = typography
     ) {
+
         content()
     }
 }

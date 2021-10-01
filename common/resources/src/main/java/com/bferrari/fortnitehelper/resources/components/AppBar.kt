@@ -18,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.bferrari.common.resources.R
 
 @Composable
-fun AppBar(title: String = stringResource(id = R.string.app_name)) {
+fun AppBar(
+    modifier: Modifier = Modifier,
+    title: String = stringResource(id = R.string.app_name)
+) {
     TopAppBar(
         title = {
             Text(
