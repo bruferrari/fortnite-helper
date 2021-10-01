@@ -7,6 +7,6 @@
     <string name="placeholder_no_description">No Description</string>
 
     <!-- pricing -->
-    <string name="price_regular_with_discount">Was %d</string>
-    <string name="price_final_with_discount">Now %d</string>
+    <string name="price_regular_with_discount">Was %,d</string>
+    <string name="price_final_with_discount">Now %,d</string>
 </resources>

@@ -30,6 +30,7 @@ import com.bferrari.features.shop.data.mappers.toShopEntryList
 import com.bferrari.features.shop.data.remote.Data
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
+import com.bferrari.features.shop.utils.toVBucksString
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.AppBar
@@ -133,12 +134,14 @@ class ShopActivity : AppCompatActivity() {
                 Text(
                     modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
                     text = entry.title ?: stringResource(id = R.string.placeholder_no_title),
-                    style = MaterialTheme.typography.h1
+                    style = MaterialTheme.typography.h1,
+                    maxLines = 1
                 )
                 Text(
                     modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
                     text = entry.description ?: stringResource(id = R.string.placeholder_no_description),
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1,
+                    maxLines = 1
                 )
             }
         }
@@ -160,7 +163,8 @@ class ShopActivity : AppCompatActivity() {
                     modifier = Modifier.padding(start = 8.dp, end = 4.dp),
                     text = stringResource(id = R.string.price_regular_with_discount, price.regular),
                     style = MaterialTheme.typography.subtitle1,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    maxLines = 1
                 )
             }
 
@@ -169,8 +173,9 @@ class ShopActivity : AppCompatActivity() {
                 text = if (hasDiscount) stringResource(
                     id = R.string.price_final_with_discount,
                     price.final
-                ) else "${price.final}",
+                ) else price.final.toVBucksString(),
                 style = MaterialTheme.typography.subtitle1,
+                maxLines = 1
             )
 
             Image(

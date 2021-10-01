@@ -17,19 +17,7 @@ import kotlinx.serialization.Serializable
 @Serializable data class ListType(
     val name: String? = null,
     val entries: List<Entry>
-) {
-    val items: List<ShopItemResponse> get() = buildItems()
-
-    private fun buildItems(): List<ShopItemResponse> {
-        val items = mutableListOf<ShopItemResponse>()
-
-        entries.forEach { entry ->
-            items.addAll(entry.items)
-        }
-
-        return items.toList()
-    }
-}
+)
 
 @Serializable data class Entry(
     val items: List<ShopItemResponse>,
