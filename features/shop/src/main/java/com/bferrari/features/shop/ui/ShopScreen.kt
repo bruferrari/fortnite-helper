@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
@@ -97,6 +98,7 @@ fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun EntryImageView(url: String) {
     Image(
