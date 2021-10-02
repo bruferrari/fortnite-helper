@@ -1,6 +1,7 @@
 package com.bferrari.fortnitehelper
 
 import android.app.Application
+import com.bferrari.fortnitehelper.di.DIManager
 import timber.log.Timber
 
 class AppApplication : Application() {

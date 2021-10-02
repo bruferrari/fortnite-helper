@@ -25,5 +25,4 @@ dependencies {
     api deps.compose.foundation
     api deps.compose.material
     api deps.compose.activities
-    api deps.compose.navigation
 }

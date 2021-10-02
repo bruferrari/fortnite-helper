@@ -16,6 +16,7 @@ dependencies {
     //region dependency injection
     implementation deps.koin.core
     implementation deps.koin.android
+    implementation deps.koin.compose
     //endregion
 
     // region tests
