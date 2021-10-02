@@ -4,27 +4,28 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
+import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun CompanionApp() {
     ZeroPointDesignSystem {
-        val systemUiController = rememberSystemUiController()
-        val darkIcons = MaterialTheme.colors.isLight
-        SideEffect {
-            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
-        }
-        val navController = rememberNavController()
+        ProvideWindowInsets {
+            val systemUiController = rememberSystemUiController()
+            val darkIcons = MaterialTheme.colors.isLight
 
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
+            SideEffect {
+                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+            }
 
-        Scaffold {
-            CompanionNavGraph(navController)
+            val navController = rememberNavController()
+
+            Scaffold {
+                CompanionNavGraph(navController)
+            }
         }
     }
 }

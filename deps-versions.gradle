@@ -90,6 +90,7 @@ deps.coil = coil
 def accompanist = [:]
 accompanist.swipe_refresh = "com.google.accompanist:accompanist-swiperefresh:$versions.accompanist"
 accompanist.system_ui_controller = "com.google.accompanist:accompanist-systemuicontroller:$versions.accompanist"
+accompanist.insets = "com.google.accompanist:accompanist-insets:$versions.accompanist"
 deps.accompanist = accompanist
 
 ext.deps = deps

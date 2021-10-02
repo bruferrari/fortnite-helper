@@ -29,6 +29,8 @@ import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -42,7 +44,11 @@ fun ShopScreen(viewModel: ShopViewModel) {
         is ShopUiState.Loading -> LoadingView()
     }
 
-    AppBar()
+    AppBar(
+        navigationAction = {
+            //TODO: handle back button and action to back up (out of app)
+        }
+    )
 }
 
 @Composable
@@ -62,7 +68,9 @@ fun EntriesList(
         onRefresh = { viewModel.fetchShopItems() }
     ) {
         LazyColumn(
-            modifier = Modifier.padding(top = 56.dp)
+            modifier = Modifier
+                .padding(top = 56.dp)
+                .statusBarsPadding()
         ) {
             items(entries) { entry ->
                 EntryCell(entry = entry)

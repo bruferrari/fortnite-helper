@@ -30,7 +30,15 @@ fun CompanionNavGraph(
         }
 
         composable(MainDestinations.SHOP_ROUTE) {
-            ShopScreen(getViewModel())
+            ShopScreen(
+                viewModel = getViewModel()
+            )
         }
+    }
+}
+
+class MainActions(navController: NavHostController) {
+    val upPress: () -> Unit = {
+        navController.navigateUp()
     }
 }

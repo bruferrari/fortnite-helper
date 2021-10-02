@@ -25,4 +25,7 @@ dependencies {
     api deps.compose.foundation
     api deps.compose.material
     api deps.compose.activities
+    api deps.navigation.compose
+    api deps.accompanist.system_ui_controller
+    api deps.accompanist.insets
 }

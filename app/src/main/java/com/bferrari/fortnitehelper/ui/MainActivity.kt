@@ -18,6 +18,4 @@ class MainActivity : AppCompatActivity() {
             CompanionApp()
         }
     }
-
-
 }

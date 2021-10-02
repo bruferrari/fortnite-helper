@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.bferrari.fortnitehelper.MainDestinations
 import com.bferrari.fortnitehelper.R
 
 @ExperimentalAnimationApi
@@ -57,7 +58,7 @@ fun SplashScreen(navController: NavHostController) {
     }
 
     Handler(Looper.getMainLooper()).postDelayed({
-        navController.navigate("shop")
+        navController.navigate(MainDestinations.SHOP_ROUTE)
     }, 1000)
 }
 

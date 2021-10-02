@@ -25,7 +25,4 @@ dependencies {
     implementation project(':features:shop')
     implementation project(':common:resources')
     implementation project(':common:utils')
-
-    implementation deps.navigation.compose
-    implementation deps.accompanist.system_ui_controller
 }
