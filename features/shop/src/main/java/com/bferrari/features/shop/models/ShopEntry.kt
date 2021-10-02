@@ -6,9 +6,13 @@ data class ShopEntry(
     val title: String? = null,
     val description: String? = null,
     val imageUrl: String? = null,
+    val iconUrl: String? = null,
     val rarity: String? = null,
     val items: List<ShopItem>,
     val regularPrice: Long,
     val finalPrice: Long,
     val bundle: Bundle? = null
-)
+) {
+    val hasSubtitle: Boolean
+        get() = title != description
+}

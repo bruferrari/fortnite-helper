@@ -25,19 +25,17 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
-import com.bferrari.features.shop.data.mappers.toShopEntryList
-import com.bferrari.features.shop.data.remote.Data
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
-import com.bferrari.features.shop.utils.toVBucksString
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
-import com.bferrari.fortnitehelper.resources.components.AppBar
-import com.bferrari.fortnitehelper.resources.components.ErrorView
-import com.bferrari.fortnitehelper.resources.components.LoadingView
+import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.android.ext.android.inject
 
 @ExperimentalCoilApi
@@ -60,8 +58,8 @@ class ShopActivity : AppCompatActivity() {
     fun ShopScreen() {
         val state by viewModel.shopState.collectAsState()
 
-        when(val shopState: ShopUiState = state) {
-            is ShopUiState.Success -> RenderList(shopState.shopResponse.data)
+        when (val shopState: ShopUiState = state) {
+            is ShopUiState.Success -> EntriesList(entries = shopState.entries)
             is ShopUiState.Error -> ErrorView()
             is ShopUiState.Loading -> LoadingView()
         }
@@ -70,29 +68,24 @@ class ShopActivity : AppCompatActivity() {
     }
     
     @Composable
-    fun RenderList(data: Data?) {
-        if (data == null) return // render a blank slate?
-
-        val featuredItems = data.featured?.entries?.toShopEntryList()
-        val dailyItems = data.daily?.entries?.toShopEntryList()
-        val specialItems = data.specialFeatured?.entries?.toShopEntryList()
-        
-        //TODO: render 3 types of different lists (featured, daily, special)
-        EntriesList(entries = featuredItems ?: emptyList())
-    }
-    
-    @Composable
     fun EntriesList(entries: List<ShopEntry>) {
+        val refreshingState by viewModel.isRefreshing.collectAsState()
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.primary)
         )
-        LazyColumn(
-            modifier = Modifier.padding(top = 56.dp)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = refreshingState),
+            onRefresh = { viewModel.fetchShopItems() }
         ) {
-            items(entries) { entry ->
-                EntryCell(entry = entry)
+            LazyColumn(
+                modifier = Modifier.padding(top = 56.dp)
+            ) {
+                items(entries) { entry ->
+                    EntryCell(entry = entry)
+                }
             }
         }
     }
@@ -100,9 +93,12 @@ class ShopActivity : AppCompatActivity() {
     @Preview
     @Composable
     fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
+        //TODO: set placeholder image when there's nothing to load
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
+            EntryImageView(url = entry.imageUrl ?: entry.iconUrl ?: "")
+            RarityView(entry)
             ItemIdentifierView(entry)
 
             PriceView(price = Price(
@@ -113,38 +109,52 @@ class ShopActivity : AppCompatActivity() {
     }
 
     @Composable
+    fun EntryImageView(url: String) {
+        Image(
+            painter = rememberImagePainter(url),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f),
+            contentScale = ContentScale.FillBounds
+        )
+    }
+
+    @Composable
     fun ItemIdentifierView(entry: ShopEntry) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Colors.BlueGray900),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = rememberImagePainter(entry.imageUrl),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                contentScale = ContentScale.FillBounds
+            Title(
+                modifier = Modifier.absolutePadding(
+                    left = 8.dp,
+                    top = 8.dp,
+                    bottom = if (entry.hasSubtitle) 0.dp else 8.dp
+                ),
+                text = entry.title ?: stringResource(id = R.string.placeholder_no_title)
             )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Colors.BlueGray900),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    modifier = Modifier.absolutePadding(left = 8.dp, top = 8.dp),
-                    text = entry.title ?: stringResource(id = R.string.placeholder_no_title),
-                    style = MaterialTheme.typography.h1,
-                    maxLines = 1
-                )
-                Text(
+
+            if (entry.hasSubtitle) {
+                Subtitle(
                     modifier = Modifier.absolutePadding(left = 8.dp, bottom = 8.dp),
                     text = entry.description ?: stringResource(id = R.string.placeholder_no_description),
-                    style = MaterialTheme.typography.subtitle1,
-                    maxLines = 1
                 )
             }
         }
+    }
+
+    @Composable
+    fun RarityView(entry: ShopEntry) {
+        //TODO: get colors and build enumerator
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(8.dp)
+                .background(color = Colors.Teal700)
+        )
     }
 
     @Composable

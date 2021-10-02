@@ -24,4 +24,5 @@ dependencies {
     implementation project(':core:network')
     implementation project(':features:shop')
     implementation project(':common:resources')
+    implementation project(':common:utils')
 }
