@@ -32,11 +32,11 @@ class ShopViewModel(
             .catch { cause ->
                _isRefreshing.emit(false)
                Timber.e(cause)
-               _shopState.value = ShopUiState.Error(cause)
+               _shopState.update { ShopUiState.Error(cause) }
             }.collect {
                _isRefreshing.emit(false)
                val result = getShopEntries(it)
-               _shopState.value = ShopUiState.Success(result)
+               _shopState.update { ShopUiState.Success(result) }
             }
       }
    }

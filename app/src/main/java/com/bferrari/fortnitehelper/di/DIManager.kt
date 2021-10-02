@@ -1,4 +1,4 @@
-package com.bferrari.fortnitehelper
+package com.bferrari.fortnitehelper.di
 
 import com.bferrari.features.shop.di.ShopModules
 import org.koin.core.context.startKoin

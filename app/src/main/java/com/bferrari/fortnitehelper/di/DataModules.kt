@@ -1,4 +1,4 @@
-package com.bferrari.fortnitehelper
+package com.bferrari.fortnitehelper.di
 
 import com.bferrari.features.shop.ShopService
 import com.bferrari.fortnitehelper.core.network.HttpClient
