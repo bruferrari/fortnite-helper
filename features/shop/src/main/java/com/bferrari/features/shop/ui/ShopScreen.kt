@@ -31,7 +31,6 @@ import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
