@@ -1,7 +1,5 @@
 package com.bferrari.fortnitehelper.ui
 
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
@@ -14,6 +12,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -26,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bferrari.fortnitehelper.MainDestinations
 import com.bferrari.fortnitehelper.R
+import com.bferrari.fortnitehelper.resources.utils.navigate
+import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
 @Composable
@@ -57,9 +58,10 @@ fun SplashScreen(navController: NavHostController) {
         }
     }
 
-    Handler(Looper.getMainLooper()).postDelayed({
-        navController.navigate(MainDestinations.SHOP_ROUTE)
-    }, 1000)
+    LaunchedEffect(true) {
+        delay(1000)
+        navController.navigate(MainDestinations.SHOP_ROUTE, true)
+    }
 }
 
 @Composable
