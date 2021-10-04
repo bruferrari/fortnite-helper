@@ -80,10 +80,12 @@ fun EntriesList(
 @Composable
 fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
     //TODO: set placeholder image when there's nothing to load
+    val imageUrl = entry.bundleUrl ?: entry.imageUrl ?: entry.iconUrl ?: ""
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        EntryImageView(url = entry.imageUrl ?: entry.iconUrl ?: "")
+        EntryImageView(url = imageUrl)
         RarityView(entry)
         ItemIdentifierView(entry)
 

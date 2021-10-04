@@ -6,6 +6,7 @@ data class ShopEntry(
     val title: String? = null,
     val description: String? = null,
     val imageUrl: String? = null,
+    val bundleUrl: String? = null,
     val iconUrl: String? = null,
     val rarity: EntryRarity? = null,
     val items: List<ShopItem>,
