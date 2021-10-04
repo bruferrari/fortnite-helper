@@ -24,6 +24,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
+import com.bferrari.features.shop.models.EntryRarity
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
@@ -45,11 +46,7 @@ fun ShopScreen(viewModel: ShopViewModel) {
         is ShopUiState.Loading -> LoadingView()
     }
 
-    AppBar(
-        navigationAction = {
-            //TODO: handle back button and action to back up (out of app)
-        }
-    )
+    AppBar()
 }
 
 @Composable
@@ -138,13 +135,12 @@ fun ItemIdentifierView(entry: ShopEntry) {
 }
 
 @Composable
-fun RarityView(entry: ShopEntry) {
-    //TODO: get colors and build enumerator
+fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { color ->
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .size(8.dp)
-            .background(color = Colors.Teal700)
+            .background(color = color)
     )
 }
 
@@ -214,7 +210,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val first = ShopEntry(
         title = "entry 1",
         description = "entry description 1",
-        rarity = "Legendary",
+        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1000,
@@ -225,7 +221,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val second = ShopEntry(
         title = "entry 2",
         description = "entry description 2",
-        rarity = "Legendary",
+        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1200,

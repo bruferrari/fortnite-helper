@@ -7,7 +7,7 @@ data class ShopEntry(
     val description: String? = null,
     val imageUrl: String? = null,
     val iconUrl: String? = null,
-    val rarity: String? = null,
+    val rarity: EntryRarity? = null,
     val items: List<ShopItem>,
     val regularPrice: Long,
     val finalPrice: Long,
