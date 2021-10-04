@@ -46,7 +46,7 @@ fun RarityTypes.toColor(): Color = when (this) {
     RarityTypes.MYTHIC -> Color(0xFF000000)
 }
 
-fun findRarityType(value: String) = RarityTypes
+private fun findRarityType(value: String) = RarityTypes
     .values()
     .find {
         value.equals(it.name, ignoreCase = true)
