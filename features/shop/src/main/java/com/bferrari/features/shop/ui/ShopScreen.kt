@@ -1,10 +1,12 @@
 package com.bferrari.features.shop.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -55,11 +57,7 @@ fun EntriesList(
 ) {
     val refreshingState by viewModel.isRefreshing.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.primary)
-    )
+    Box(modifier = Modifier.fillMaxSize())
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = refreshingState),
         onRefresh = { viewModel.fetchShopItems() }
@@ -67,7 +65,9 @@ fun EntriesList(
         LazyColumn(
             modifier = Modifier
                 .padding(top = 56.dp)
-                .statusBarsPadding()
+                .statusBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
         ) {
             items(entries) { entry ->
                 EntryCell(entry = entry)
@@ -81,18 +81,22 @@ fun EntriesList(
 fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
     //TODO: set placeholder image when there's nothing to load
     val imageUrl = entry.bundleUrl ?: entry.imageUrl ?: entry.iconUrl ?: ""
-
-    Column(
-        modifier = Modifier.fillMaxWidth()
+    Card(
+        modifier = Modifier.background(color = Colors.White),
+        elevation = 8.dp
     ) {
-        EntryImageView(url = imageUrl)
-        RarityView(entry)
-        ItemIdentifierView(entry)
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            EntryImageView(url = imageUrl)
+            RarityView(entry)
+            ItemIdentifierView(entry)
 
-        PriceView(price = Price(
-            regular = entry.regularPrice,
-            final = entry.finalPrice
-        ))
+            PriceView(price = Price(
+                regular = entry.regularPrice,
+                final = entry.finalPrice
+            ))
+        }
     }
 }
 

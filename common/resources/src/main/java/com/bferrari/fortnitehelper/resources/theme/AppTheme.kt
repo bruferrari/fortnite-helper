@@ -3,7 +3,6 @@ package com.bferrari.fortnitehelper.resources.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -16,20 +15,20 @@ import com.bferrari.common.resources.R
 private val lightColors = lightColors(
     primary = Colors.PurpleLight,
     secondary = Colors.PurpleDark,
-    background = Colors.Black,
-    onBackground = Colors.Gray,
-    surface = Colors.Teal200,
-    onSurface = Colors.Teal700
+    background = Colors.Gray300,
+    onBackground = Colors.PurpleDark,
+    surface = Colors.Gray400,
+    onSurface = Colors.Black
 )
 
 // needs to be adapted
-private val darkColors = darkColors(
+private val darkColors = lightColors(
     primary = Colors.PurpleLight,
     secondary = Colors.PurpleDark,
-    background = Colors.Black,
-    onBackground = Colors.Gray,
-    surface = Colors.Teal200,
-    onSurface = Colors.Teal700
+    background = Colors.Gray300,
+    onBackground = Colors.PurpleDark,
+    surface = Colors.Gray400,
+    onSurface = Colors.Black
 )
 
 private val fortniteFontFamily = FontFamily(
@@ -45,14 +44,14 @@ object ZeroPoint : DesignSystem {
     override val title: TextStyle
         get() = TextStyle(
             fontFamily = fortniteFontFamily,
-            color = Colors.Gray,
+            color = Colors.Gray200,
             fontSize = 24.sp
         )
 
     override val subtitle: TextStyle
         get() = TextStyle(
             fontFamily = fortniteFontFamily,
-            color = Colors.Gray,
+            color = Colors.Gray200,
             fontSize = 16.sp
         )
 }

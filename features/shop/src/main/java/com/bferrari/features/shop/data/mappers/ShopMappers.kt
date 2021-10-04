@@ -8,6 +8,7 @@ import com.bferrari.features.shop.data.remote.ShopItemResponse
 import com.bferrari.features.shop.models.EntryRarity
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
+import com.bferrari.fortnitehelper.resources.theme.RarityColors
 
 fun ShopItemResponse.toShopItem() = ShopItem(
     name = name,
@@ -41,12 +42,12 @@ fun Rarity.toEntryRarity() = EntryRarity(
 )
 
 fun RarityTypes.toColor(): Color = when (this) {
-    RarityTypes.COMMON -> Color(0xFFFFFFFF)
-    RarityTypes.UNCOMMON -> Color(0xFF319236)
-    RarityTypes.RARE -> Color(0xFF4C51F7)
-    RarityTypes.EPIC -> Color(0xFF9D4DBB)
-    RarityTypes.LEGENDARY -> Color(0xFFF3AF19)
-    RarityTypes.MYTHIC -> Color(0xFF000000)
+    RarityTypes.COMMON -> RarityColors.Common
+    RarityTypes.UNCOMMON -> RarityColors.Uncommon
+    RarityTypes.RARE -> RarityColors.Rare
+    RarityTypes.EPIC -> RarityColors.Epic
+    RarityTypes.LEGENDARY -> RarityColors.Legendary
+    RarityTypes.MYTHIC -> RarityColors.Mythic
 }
 
 private fun findRarityType(value: String) = RarityTypes
