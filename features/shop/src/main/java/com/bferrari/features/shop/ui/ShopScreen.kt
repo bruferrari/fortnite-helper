@@ -57,7 +57,6 @@ fun EntriesList(
 ) {
     val refreshingState by viewModel.isRefreshing.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize())
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = refreshingState),
         onRefresh = { viewModel.fetchShopItems() }
