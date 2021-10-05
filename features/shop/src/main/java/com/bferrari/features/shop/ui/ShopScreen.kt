@@ -1,6 +1,5 @@
 package com.bferrari.features.shop.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -80,10 +79,7 @@ fun EntriesList(
 fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
     //TODO: set placeholder image when there's nothing to load
     val imageUrl = entry.bundleUrl ?: entry.imageUrl ?: entry.iconUrl ?: ""
-    Card(
-        modifier = Modifier.background(color = Colors.White),
-        elevation = 8.dp
-    ) {
+    Card(elevation = 8.dp) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
