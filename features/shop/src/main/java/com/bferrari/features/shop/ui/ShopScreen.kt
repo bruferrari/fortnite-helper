@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +25,13 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
+import com.bferrari.features.shop.models.EntryRarity
 import com.bferrari.features.shop.models.ShopEntry
 import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
-import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -46,9 +47,7 @@ fun ShopScreen(viewModel: ShopViewModel) {
     }
 
     AppBar(
-        navigationAction = {
-            //TODO: handle back button and action to back up (out of app)
-        }
+        titleAlignment = TextAlign.Center
     )
 }
 
@@ -59,11 +58,6 @@ fun EntriesList(
 ) {
     val refreshingState by viewModel.isRefreshing.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.primary)
-    )
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing = refreshingState),
         onRefresh = { viewModel.fetchShopItems() }
@@ -71,7 +65,12 @@ fun EntriesList(
         LazyColumn(
             modifier = Modifier
                 .padding(top = 56.dp)
-                .statusBarsPadding()
+                .statusBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(
+                horizontal = 16.dp,
+                vertical = 16.dp
+            )
         ) {
             items(entries) { entry ->
                 EntryCell(entry = entry)
@@ -84,17 +83,20 @@ fun EntriesList(
 @Composable
 fun EntryCell(@PreviewParameter(SampleShopEntryProvider::class) entry: ShopEntry) {
     //TODO: set placeholder image when there's nothing to load
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        EntryImageView(url = entry.imageUrl ?: entry.iconUrl ?: "")
-        RarityView(entry)
-        ItemIdentifierView(entry)
+    val imageUrl = entry.bundleUrl ?: entry.imageUrl ?: entry.iconUrl ?: ""
+    Card(elevation = 8.dp) {
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            EntryImageView(url = imageUrl)
+            RarityView(entry)
+            ItemIdentifierView(entry)
 
-        PriceView(price = Price(
-            regular = entry.regularPrice,
-            final = entry.finalPrice
-        ))
+            PriceView(price = Price(
+                regular = entry.regularPrice,
+                final = entry.finalPrice
+            ))
+        }
     }
 }
 
@@ -138,13 +140,12 @@ fun ItemIdentifierView(entry: ShopEntry) {
 }
 
 @Composable
-fun RarityView(entry: ShopEntry) {
-    //TODO: get colors and build enumerator
+fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { color ->
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .size(8.dp)
-            .background(color = Colors.Teal700)
+            .background(color = color)
     )
 }
 
@@ -214,7 +215,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val first = ShopEntry(
         title = "entry 1",
         description = "entry description 1",
-        rarity = "Legendary",
+        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1000,
@@ -225,7 +226,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val second = ShopEntry(
         title = "entry 2",
         description = "entry description 2",
-        rarity = "Legendary",
+        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1200,

@@ -6,14 +6,15 @@ import kotlinx.serialization.Serializable
 data class ShopItemResponse(
     val name: String,
     val description: String,
-    val rarity: Rarity,
+    val rarity: Rarity? = null,
     val images: Images? = null
 )
 
 @Serializable
 data class Rarity(
-    val value: String,
-    val displayValue: String
+    val value: RarityTypes? = null,
+    val displayValue: String,
+    val backendValue: String
 )
 
 @Serializable
@@ -22,3 +23,15 @@ data class Images(
     val icon: String? = null,
     val featured: String? = null
 )
+
+@Serializable
+enum class RarityTypes(
+    val value: String
+) {
+    COMMON("Common"),
+    UNCOMMON("Uncommon"),
+    RARE("Rare"),
+    EPIC("Epic"),
+    LEGENDARY("Legendary"),
+    MYTHIC("Mythic")
+}
