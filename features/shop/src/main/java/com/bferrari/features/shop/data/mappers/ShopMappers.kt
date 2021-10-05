@@ -22,9 +22,9 @@ fun List<ShopItemResponse>.toShopItemList() = map { it.toShopItem() }
 fun Entry.toShopEntry() = ShopEntry(
     title = bundle?.name ?: items.firstOrNull()?.name,
     description = bundle?.info ?: items.firstOrNull()?.name,
-    bundleUrl = displayAssets.assets?.firstOrNull()?.images?.backgroundImage
+    bundleUrl = displayAssets?.assets?.firstOrNull()?.images?.backgroundImage
         ?: bundle?.image,
-    imageUrl = displayAssets.assets?.firstOrNull()?.images?.backgroundImage
+    imageUrl = displayAssets?.assets?.firstOrNull()?.images?.backgroundImage
         ?: items.firstOrNull()?.images?.featured,
     iconUrl = items.firstOrNull()?.images?.icon,
     rarity = items.firstOrNull()?.rarity?.toEntryRarity(),

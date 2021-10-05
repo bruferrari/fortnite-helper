@@ -25,7 +25,7 @@ import kotlinx.serialization.Serializable
     val regularPrice: Long,
     val finalPrice: Long,
     val bundle: Bundle? = null,
-    @SerialName("newDisplayAsset") val displayAssets: DisplayAssets
+    @SerialName("newDisplayAsset") val displayAssets: DisplayAssets? = null
 )
 
 @Serializable data class Bundle(
