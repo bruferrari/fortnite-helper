@@ -32,6 +32,7 @@ import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
+import com.bferrari.fortnitehelper.resources.theme.ZeroPointDesignSystem
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -46,7 +47,9 @@ fun ShopScreen(viewModel: ShopViewModel) {
         is ShopUiState.Loading -> LoadingView()
     }
 
-    AppBar()
+    AppBar(
+        titleAlignment = TextAlign.Center
+    )
 }
 
 @Composable
