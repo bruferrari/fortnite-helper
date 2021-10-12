@@ -25,9 +25,9 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
-import com.bferrari.features.shop.models.EntryRarity
-import com.bferrari.features.shop.models.ShopEntry
-import com.bferrari.features.shop.models.ShopItem
+import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
+import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
+import com.bferrari.fortnitehelper.core.data.entities.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*

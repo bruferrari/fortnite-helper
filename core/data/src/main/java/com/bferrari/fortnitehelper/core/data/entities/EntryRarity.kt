@@ -1,4 +1,4 @@
-package com.bferrari.features.shop.models
+package com.bferrari.fortnitehelper.core.data.entities
 
 import androidx.compose.ui.graphics.Color
 

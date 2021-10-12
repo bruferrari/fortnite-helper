@@ -15,6 +15,7 @@ object DIManager {
 
     private fun modules(): List<Module> = listOf(
         DataModules.apiModules,
+        DataModules.dbModules,
         ShopModules.repositoryModules,
         ShopModules.viewModelModules
     )

@@ -5,9 +5,10 @@ import com.bferrari.features.shop.data.remote.Entry
 import com.bferrari.features.shop.data.remote.Rarity
 import com.bferrari.features.shop.data.remote.RarityTypes
 import com.bferrari.features.shop.data.remote.ShopItemResponse
-import com.bferrari.features.shop.models.EntryRarity
-import com.bferrari.features.shop.models.ShopEntry
-import com.bferrari.features.shop.models.ShopItem
+import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
+import com.bferrari.fortnitehelper.core.data.entities.ShopBundle
+import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
+import com.bferrari.fortnitehelper.core.data.entities.ShopItem
 import com.bferrari.fortnitehelper.resources.theme.RarityColors
 
 fun ShopItemResponse.toShopItem() = ShopItem(
@@ -31,7 +32,11 @@ fun Entry.toShopEntry() = ShopEntry(
     items = items.toShopItemList(),
     regularPrice = regularPrice,
     finalPrice = finalPrice,
-    bundle = bundle
+    bundle = ShopBundle(
+        name = bundle?.name,
+        info = bundle?.info,
+        image = bundle?.image
+    )
 )
 
 fun List<Entry>.toShopEntryList(): List<ShopEntry> = map { it.toShopEntry() }
