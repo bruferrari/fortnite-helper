@@ -19,4 +19,6 @@ android {
 dependencies {
     api deps.room.runtime
     kapt(deps.room.compiler)
+
+    implementation deps.kotlin.serialization_json
 }

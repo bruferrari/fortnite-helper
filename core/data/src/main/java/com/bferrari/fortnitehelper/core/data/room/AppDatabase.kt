@@ -2,6 +2,7 @@ package com.bferrari.fortnitehelper.core.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.bferrari.fortnitehelper.core.data.dao.ShopEntryDao
 import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
 
