@@ -16,12 +16,7 @@ class ShopRepository(
     private val shopFetcher: ShopFetcher,
     private val shopStore: ShopStore
 ) : ShopDataSource {
-
-//    override suspend fun getShopItems(): Flow<ShopResponse> = flow {
-//        val response = shopService.getCurrentShopItems()
-//        emit(response)
-//    }.flowOn(Dispatchers.IO)
-
+    
     override suspend fun fetchShopItems(): Flow<List<ShopEntry>> = flow {
        shopFetcher.invoke()
            .collect { shopEntries ->
