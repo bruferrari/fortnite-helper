@@ -9,7 +9,7 @@ class AppApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        DIManager.start()
+        DIManager.start(applicationContext)
         timberPlant()
     }
 

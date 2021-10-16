@@ -2,8 +2,10 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.32'
 }
 
+apply plugin: 'kotlinx-serialization'
 apply from: '../../deps-general.gradle'
 apply from: '../../config-android.gradle'
 
@@ -17,8 +19,9 @@ android {
 }
 
 dependencies {
-    api deps.room.runtime
-    kapt(deps.room.compiler)
+    implementation project(':core:network')
 
-    implementation deps.kotlin.serialization_json
+    kapt(deps.room.compiler)
+    api deps.room.runtime
+    api deps.room.ktx
 }
