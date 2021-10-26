@@ -36,6 +36,11 @@ class ShopViewModel(
             }
       }
    }
+
+   override fun onCleared() {
+      super.onCleared()
+      shopRepository.clear()
+   }
 }
 
 sealed class ShopUiState {

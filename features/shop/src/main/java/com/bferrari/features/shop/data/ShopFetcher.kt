@@ -10,13 +10,15 @@ import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
 import com.bferrari.fortnitehelper.core.data.entities.ShopItem
 import com.bferrari.fortnitehelper.resources.theme.RarityColors
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
 class ShopFetcher(
     private val shopService: ShopService
 ) {
+
+    private val _entriesLastUpdatedAt = MutableStateFlow<String?>(null)
+    val entriesLastUpdatedAt: StateFlow<String?> get() = _entriesLastUpdatedAt
 
     operator fun invoke(): Flow<List<ShopEntry>> = flow {
         emit(fetchShop())
@@ -24,6 +26,7 @@ class ShopFetcher(
 
     private suspend fun fetchShop(): List<ShopEntry> = withContext(Dispatchers.IO) {
         val response = shopService.getCurrentShopItems()
+        _entriesLastUpdatedAt.emit(response.data?.date)
         getShopEntries(response)
     }
 
