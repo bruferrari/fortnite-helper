@@ -10,20 +10,18 @@ import kotlinx.coroutines.flow.flowOn
 
 interface ShopDataSource {
     suspend fun fetchShopItems(): Flow<List<ShopEntry>>
-    fun clear()
 }
 
 class ShopRepository(
     private val shopFetcher: ShopFetcher,
-    private val shopStore: ShopStore
+    private val shopStore: ShopStore,
+    externalScope: CoroutineScope
 ) : ShopDataSource {
 
     private lateinit var entriesLastUpdatedAt: String
 
-    private val scope = CoroutineScope(Dispatchers.IO)
-
     init {
-        scope.launch {
+        externalScope.launch {
             shopFetcher.entriesLastUpdatedAt.collect {
                 entriesLastUpdatedAt = it ?: ""
             }
@@ -37,8 +35,4 @@ class ShopRepository(
                emit(shopEntries)
            }
     }.flowOn(Dispatchers.IO)
-
-    override fun clear() {
-        scope.cancel()
-    }
 }
