@@ -23,6 +23,7 @@ class ShopRepository(
     init {
         externalScope.launch {
             shopFetcher.entriesLastUpdatedAt.collect {
+                //TODO: remove in order to use data store
                 entriesLastUpdatedAt = it ?: ""
             }
         }
