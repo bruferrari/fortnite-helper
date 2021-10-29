@@ -11,9 +11,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.toVBucksString
@@ -38,7 +42,13 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun ShopScreen(viewModel: ShopViewModel) {
-    val state by viewModel.shopState.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val shopStateFlow = viewModel.shopState
+    val shopStateFlowLifecycleAware = remember(shopStateFlow, lifecycleOwner) {
+        shopStateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+    }
+
+    val state by shopStateFlowLifecycleAware.collectAsState(initial = ShopUiState.Loading)
 
     when (val shopState: ShopUiState = state) {
         is ShopUiState.Success -> EntriesList(entries = shopState.entries, viewModel = viewModel)
