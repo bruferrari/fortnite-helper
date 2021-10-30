@@ -27,6 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.bferrari.common.utils.rememberFlowWithLifecycle
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
 import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
@@ -39,16 +40,14 @@ import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ShopScreen(viewModel: ShopViewModel) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val shopStateFlow = viewModel.shopState
-    val shopStateFlowLifecycleAware = remember(shopStateFlow, lifecycleOwner) {
-        shopStateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-    }
-
-    val state by shopStateFlowLifecycleAware.collectAsState(initial = ShopUiState.Loading)
+    val state by rememberFlowWithLifecycle(viewModel.shopState)
+        .collectAsState(
+            initial = ShopUiState.Loading
+        )
 
     when (val shopState: ShopUiState = state) {
         is ShopUiState.Success -> EntriesList(entries = shopState.entries, viewModel = viewModel)
