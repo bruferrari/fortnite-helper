@@ -2,13 +2,14 @@ package com.bferrari.features.shop.data
 
 import com.bferrari.features.shop.ShopStore
 import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 interface ShopDataSource {
+    suspend fun fetchLocalShopItems(): Flow<List<ShopEntry>>
     suspend fun fetchShopItems(): Flow<List<ShopEntry>>
 }
 
@@ -25,12 +26,21 @@ class ShopRepository(
             }
         }
     }
-    
+
     override suspend fun fetchShopItems(): Flow<List<ShopEntry>> = flow {
-       shopFetcher.invoke()
-           .collect { shopEntries ->
-               shopStore.storeShopEntries(shopEntries)
-               emit(shopEntries)
-           }
+        // TODO: decide when fetch from local store or remote api
+        val lastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()
+        Timber.d("collected: $lastUpdatedAt")
+
+        shopFetcher.invoke()
+            .collect { shopEntries ->
+                shopStore.storeShopEntries(shopEntries)
+                emit(shopEntries)
+            }
     }.flowOn(Dispatchers.IO)
+    
+    override suspend fun fetchLocalShopItems(): Flow<List<ShopEntry>> {
+        // TODO: needs to be implemented
+        return flow {  }
+    }
 }
