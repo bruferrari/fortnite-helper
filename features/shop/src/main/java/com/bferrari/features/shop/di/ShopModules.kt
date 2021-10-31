@@ -1,4 +1,7 @@
 package com.bferrari.features.shop.di
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.Preferences
 import com.bferrari.features.shop.ShopStore
 import com.bferrari.features.shop.data.ShopDataSource
 import com.bferrari.features.shop.data.ShopFetcher
@@ -13,8 +16,12 @@ object ShopModules {
 
     private val repositoryModules
         get() = module {
-            factory<ShopDataSource> { (scope: CoroutineScope) ->
-                ShopRepository(get(), get(), scope)
+            factory<ShopDataSource> { (scope: CoroutineScope, dataStore: DataStore<Preferences>) ->
+                ShopRepository(
+                    get(),
+                    get { parametersOf(dataStore) },
+                    scope
+                )
             }
         }
 
@@ -25,15 +32,17 @@ object ShopModules {
 
     private val storeModules
         get() = module {
-            factory { ShopStore(get()) }
+            factory { (dataStore: DataStore<Preferences>) ->
+                ShopStore(get(), dataStore = dataStore)
+            }
         }
 
     private val viewModelModules
         get() = module {
-            viewModel { (scope: CoroutineScope) ->
-                ShopViewModel(get {
-                    parametersOf(scope)
-                })
+            viewModel { (scope: CoroutineScope, dataStore: DataStore<Preferences>) ->
+                ShopViewModel(
+                    get { parametersOf(scope, dataStore) }
+                )
             }
         }
 

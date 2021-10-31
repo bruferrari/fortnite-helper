@@ -18,13 +18,10 @@ class ShopRepository(
     externalScope: CoroutineScope
 ) : ShopDataSource {
 
-    private lateinit var entriesLastUpdatedAt: String
-
     init {
         externalScope.launch {
-            shopFetcher.entriesLastUpdatedAt.collect {
-                //TODO: remove in order to use data store
-                entriesLastUpdatedAt = it ?: ""
+            shopFetcher.entriesLastUpdatedAt.collect { lastUpdatedAt ->
+                shopStore.updateLastUpdatedAt(lastUpdatedAt)
             }
         }
     }

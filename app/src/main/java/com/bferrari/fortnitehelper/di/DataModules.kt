@@ -2,7 +2,6 @@ package com.bferrari.fortnitehelper.di
 
 import androidx.room.Room
 import com.bferrari.features.shop.ShopService
-import com.bferrari.fortnitehelper.core.data.dao.ShopEntryDao
 import com.bferrari.fortnitehelper.core.data.room.AppDatabase
 import com.bferrari.fortnitehelper.core.network.HttpClient
 import org.koin.android.ext.koin.androidContext

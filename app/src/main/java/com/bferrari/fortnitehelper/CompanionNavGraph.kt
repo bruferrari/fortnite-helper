@@ -3,6 +3,8 @@ package com.bferrari.fortnitehelper
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,6 +22,7 @@ object MainDestinations {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CompanionNavGraph(
+    dataStore: DataStore<Preferences>,
     navController: NavHostController = rememberNavController(),
     startDestination: String = MainDestinations.SPLASH_ROUTE
 ) {
@@ -35,7 +38,7 @@ fun CompanionNavGraph(
         composable(MainDestinations.SHOP_ROUTE) {
             ShopScreen(
                 viewModel = getViewModel {
-                    parametersOf(scope)
+                    parametersOf(scope, dataStore)
                 }
             )
         }
