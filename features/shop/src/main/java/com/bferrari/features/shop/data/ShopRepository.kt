@@ -45,24 +45,26 @@ class ShopRepository(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun shouldFetchRemote(): Boolean {
-        val shopListLastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()
+        val shopListLastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()?.toInstant()
         val defaultTimeZone = TimeZone.currentSystemDefault()
-        val date = shopListLastUpdatedAt?.toInstant()
         val now = Clock.System.now()
-        val next = date?.plus(1, DateTimeUnit.DAY, defaultTimeZone)
+        val next = shopListLastUpdatedAt?.plus(1, DateTimeUnit.DAY, defaultTimeZone)
 
-        Timber.d("collected: $shopListLastUpdatedAt")
-        Timber.d("date: ${date.toString()}")
-        Timber.d("today: $now")
-        Timber.d("tomorrow: $next")
+        Timber.d( message =
+                "{" +
+                "\nListings last updated at: $shopListLastUpdatedAt" +
+                "\nCurrent device time is: $now" +
+                "\nNext listings update at: $next" +
+                "\n}"
+        )
 
         if (next == null) {
-            Timber.e("Cannot handle next day calculations")
+            Timber.e("Cannot handle next day calculations, fetching remote...")
             return true
         }
 
         val remainingHoursToUpdate = now.until(next, DateTimeUnit.HOUR)
-        Timber.d("updateWhen: $remainingHoursToUpdate")
+        Timber.d("Must update listings in: $remainingHoursToUpdate hours")
         return remainingHoursToUpdate < 0
     }
 }
