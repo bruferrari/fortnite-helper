@@ -61,12 +61,8 @@ class ShopRepository(
             return true
         }
 
-        val updateWhen = now.until(next, DateTimeUnit.HOUR)
-        Timber.d("updateWhen: $updateWhen")
-        return updateWhen < 0
-    }
-
-    companion object {
-        private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        val remainingHoursToUpdate = now.until(next, DateTimeUnit.HOUR)
+        Timber.d("updateWhen: $remainingHoursToUpdate")
+        return remainingHoursToUpdate < 0
     }
 }
