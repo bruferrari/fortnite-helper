@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import timber.log.Timber
+import java.lang.Exception
 
 interface ShopDataSource {
     fun fetchLocalShopItems(): List<ShopEntry>
@@ -32,7 +33,6 @@ class ShopRepository(
     override fun fetchLocalShopItems(): List<ShopEntry> = shopStore.getShopEntries()
 
     override suspend fun fetchShopItems(): Flow<List<ShopEntry>> = flow {
-        // TODO: decide when fetch from local store or remote api
         if (shouldFetchRemote()) {
             shopFetcher.invoke()
                 .collect { shopEntries ->
@@ -45,10 +45,21 @@ class ShopRepository(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun shouldFetchRemote(): Boolean {
-        val shopListLastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()?.toInstant()
+        val shopListLastUpdatedAt =
+            shopStore.getLastUpdatedAt().firstOrNull()?.toInstant() ?: return true
+
         val defaultTimeZone = TimeZone.currentSystemDefault()
         val now = Clock.System.now()
-        val next = shopListLastUpdatedAt?.plus(1, DateTimeUnit.DAY, defaultTimeZone)
+
+        val next: Instant = try {
+            shopListLastUpdatedAt.plus(1, DateTimeUnit.DAY, defaultTimeZone)
+        } catch (e: Exception) {
+            when (e) {
+                is DateTimeArithmeticException -> Timber.e(e, "Cannot handle next day calculations, fetching remote...")
+                else -> Timber.e(e, "Unexpected error occurred when trying to calculate next fetch time, fetching remote...")
+            }
+            return true
+        }
 
         Timber.d( message =
                 "{" +
@@ -58,13 +69,9 @@ class ShopRepository(
                 "\n}"
         )
 
-        if (next == null) {
-            Timber.e("Cannot handle next day calculations, fetching remote...")
-            return true
-        }
-
         val remainingHoursToUpdate = now.until(next, DateTimeUnit.HOUR)
         Timber.d("Must update listings in: $remainingHoursToUpdate hours")
+
         return remainingHoursToUpdate < 0
     }
 }
