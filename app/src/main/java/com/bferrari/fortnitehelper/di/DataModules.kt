@@ -2,8 +2,10 @@ package com.bferrari.fortnitehelper.di
 
 import androidx.room.Room
 import com.bferrari.features.shop.ShopService
+import com.bferrari.fortnitehelper.core.data.dataStore
 import com.bferrari.fortnitehelper.core.data.room.AppDatabase
 import com.bferrari.fortnitehelper.core.network.HttpClient
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -29,9 +31,17 @@ object DataModules {
             single { get<AppDatabase>().shopEntryDao() }
         }
 
+    private val dataStoreModules
+        get() = module {
+            single {
+                androidApplication().applicationContext.run { dataStore }
+            }
+        }
+
     val modules = arrayOf(
         apiModules,
         dbModules,
-        daoModules
+        daoModules,
+        dataStoreModules
     )
 }

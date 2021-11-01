@@ -6,11 +6,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import timber.log.Timber
 
 interface ShopDataSource {
-    suspend fun fetchLocalShopItems(): Flow<List<ShopEntry>>
+    fun fetchLocalShopItems(): List<ShopEntry>
     suspend fun fetchShopItems(): Flow<List<ShopEntry>>
+    suspend fun shouldFetchRemote(): Boolean
 }
 
 class ShopRepository(
@@ -27,20 +29,44 @@ class ShopRepository(
         }
     }
 
+    override fun fetchLocalShopItems(): List<ShopEntry> = shopStore.getShopEntries()
+
     override suspend fun fetchShopItems(): Flow<List<ShopEntry>> = flow {
         // TODO: decide when fetch from local store or remote api
-        val lastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()
-        Timber.d("collected: $lastUpdatedAt")
-
-        shopFetcher.invoke()
-            .collect { shopEntries ->
-                shopStore.storeShopEntries(shopEntries)
-                emit(shopEntries)
-            }
+        if (shouldFetchRemote()) {
+            shopFetcher.invoke()
+                .collect { shopEntries ->
+                    shopStore.storeShopEntries(shopEntries)
+                    emit(shopEntries)
+                }
+        } else {
+            fetchLocalShopItems()
+        }
     }.flowOn(Dispatchers.IO)
-    
-    override suspend fun fetchLocalShopItems(): Flow<List<ShopEntry>> {
-        // TODO: needs to be implemented
-        return flow {  }
+
+    override suspend fun shouldFetchRemote(): Boolean {
+        val shopListLastUpdatedAt = shopStore.getLastUpdatedAt().firstOrNull()
+        val defaultTimeZone = TimeZone.currentSystemDefault()
+        val date = shopListLastUpdatedAt?.toInstant()
+        val now = Clock.System.now()
+        val next = date?.plus(1, DateTimeUnit.DAY, defaultTimeZone)
+
+        Timber.d("collected: $shopListLastUpdatedAt")
+        Timber.d("date: ${date.toString()}")
+        Timber.d("today: $now")
+        Timber.d("tomorrow: $next")
+
+        if (next == null) {
+            Timber.e("Cannot handle next day calculations")
+            return true
+        }
+
+        val updateWhen = now.until(next, DateTimeUnit.HOUR)
+        Timber.d("updateWhen: $updateWhen")
+        return updateWhen < 0
+    }
+
+    companion object {
+        private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
     }
 }

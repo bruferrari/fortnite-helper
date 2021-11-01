@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EntryRarity(
-    val value: String?,
+    val value: String? = null,
     @Serializable(with = ColorAsARGBSerializer::class) val color: Color?
 )
 

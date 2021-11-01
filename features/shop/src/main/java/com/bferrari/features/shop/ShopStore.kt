@@ -21,6 +21,10 @@ class ShopStore(
         shopEntryDao.insertShopEntries(entries)
     }
 
+    fun getShopEntries(): List<ShopEntry> {
+        return shopEntryDao.getShopEntries()
+    }
+
     suspend fun updateLastUpdatedAt(lastUpdatedAt: String?) {
         if (lastUpdatedAt == null) return
 

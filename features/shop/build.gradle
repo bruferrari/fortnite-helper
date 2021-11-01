@@ -31,4 +31,5 @@ dependencies {
     implementation deps.coil.core
     implementation deps.coil.compose
     implementation deps.accompanist.swipe_refresh
+    implementation deps.datetime
 }

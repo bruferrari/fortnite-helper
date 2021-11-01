@@ -4,9 +4,12 @@ import androidx.room.TypeConverter
 import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
 import com.bferrari.fortnitehelper.core.data.entities.ShopBundle
 import com.bferrari.fortnitehelper.core.data.entities.ShopItem
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 
+@OptIn(ExperimentalSerializationApi::class)
 class Converters {
 
     @TypeConverter
@@ -28,8 +31,8 @@ class Converters {
     fun fromJsonToShopBundle(json: String) = json.to<ShopBundle>()
 
     private inline fun <reified T> T.toJson(): String =
-        Json.encodeToString(serializer(), this)
+        Json.encodeToString(this)
 
     private inline fun <reified T> String.to(): T =
-        Json.decodeFromString(serializer(), this)
+        Json.decodeFromString(this)
 }
