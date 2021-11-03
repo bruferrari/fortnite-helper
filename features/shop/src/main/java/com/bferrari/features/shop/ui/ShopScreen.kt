@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
@@ -149,12 +150,12 @@ fun ItemIdentifierView(entry: ShopEntry) {
 }
 
 @Composable
-fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { color ->
+fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { colorARGB ->
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .size(8.dp)
-            .background(color = color)
+            .background(color = Color(colorARGB))
     )
 }
 
@@ -224,7 +225,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val first = ShopEntry(
         title = "entry 1",
         description = "entry description 1",
-        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
+        rarity = EntryRarity(value = "Legendary", 0xFFF3AF19),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1000,
@@ -235,7 +236,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val second = ShopEntry(
         title = "entry 2",
         description = "entry description 2",
-        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
+        rarity = EntryRarity(value = "Legendary", 0xFFF3AF19),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1200,

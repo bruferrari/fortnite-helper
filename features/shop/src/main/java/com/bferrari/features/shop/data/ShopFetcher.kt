@@ -73,13 +73,13 @@ class ShopFetcher(
         color = findRarityType(backendValue.substringAfter("::"))?.toColor()
     )
 
-    private fun RarityTypes.toColor(): Color = when (this) {
-        RarityTypes.COMMON -> RarityColors.Common
-        RarityTypes.UNCOMMON -> RarityColors.Uncommon
-        RarityTypes.RARE -> RarityColors.Rare
-        RarityTypes.EPIC -> RarityColors.Epic
-        RarityTypes.LEGENDARY -> RarityColors.Legendary
-        RarityTypes.MYTHIC -> RarityColors.Mythic
+    private fun RarityTypes.toColor(): Long = when (this) {
+        RarityTypes.COMMON -> 0xFFFFFFFF
+        RarityTypes.UNCOMMON -> 0xFF319236
+        RarityTypes.RARE -> 0xFF4C51F7
+        RarityTypes.EPIC -> 0xFF9D4DBB
+        RarityTypes.LEGENDARY -> 0xFFF3AF19
+        RarityTypes.MYTHIC -> 0xFF000000
     }
 
     private fun findRarityType(value: String) = RarityTypes

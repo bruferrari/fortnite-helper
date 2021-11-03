@@ -40,7 +40,7 @@ class ShopRepository(
                     emit(shopEntries)
                 }
         } else {
-            fetchLocalShopItems()
+            emit(fetchLocalShopItems())
         }
     }.flowOn(Dispatchers.IO)
 
