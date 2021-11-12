@@ -11,12 +11,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,24 +22,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.bferrari.common.utils.rememberFlowWithLifecycle
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
+import com.bferrari.features.shop.viewmodels.ShopUiState
+import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
 import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
 import com.bferrari.fortnitehelper.core.data.entities.ShopItem
-import com.bferrari.features.shop.viewmodels.ShopUiState
-import com.bferrari.features.shop.viewmodels.ShopViewModel
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun ShopScreen(viewModel: ShopViewModel) {
