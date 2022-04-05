@@ -1,5 +1,8 @@
-package com.bferrari.features.shop.models
+package com.bferrari.fortnitehelper.core.data.entities
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ShopItem(
     val name: String,
     val description: String,

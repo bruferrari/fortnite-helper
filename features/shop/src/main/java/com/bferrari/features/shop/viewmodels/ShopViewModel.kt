@@ -2,11 +2,8 @@ package com.bferrari.features.shop.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bferrari.common.utils.concat
 import com.bferrari.features.shop.data.ShopDataSource
-import com.bferrari.features.shop.data.mappers.toShopEntryList
-import com.bferrari.features.shop.data.remote.ShopResponse
-import com.bferrari.features.shop.models.ShopEntry
+import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,7 +22,7 @@ class ShopViewModel(
 
    fun fetchShopItems() {
       viewModelScope.launch {
-         shopRepository.getShopItems()
+         shopRepository.fetchShopItems()
             .onStart {
                _isRefreshing.emit(true)
             }
@@ -33,20 +30,11 @@ class ShopViewModel(
                _isRefreshing.emit(false)
                Timber.e(cause)
                _shopState.update { ShopUiState.Error(cause) }
-            }.collect {
+            }.collect { entries ->
                _isRefreshing.emit(false)
-               val result = getShopEntries(it)
-               _shopState.update { ShopUiState.Success(result) }
+               _shopState.update { ShopUiState.Success(entries) }
             }
       }
-   }
-
-   private fun getShopEntries(shopResponse: ShopResponse): List<ShopEntry> {
-      val featured = shopResponse.data?.featured?.entries?.toShopEntryList() ?: emptyList()
-      val daily = shopResponse.data?.daily?.entries?.toShopEntryList() ?: emptyList()
-      val special = shopResponse.data?.specialFeatured?.entries?.toShopEntryList() ?: emptyList()
-
-      return featured.concat(daily, special)
    }
 }
 

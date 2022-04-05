@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.32'
 }
 
@@ -9,10 +10,6 @@ apply from: '../../deps-general.gradle'
 apply from: '../../config-android.gradle'
 
 android {
-    buildFeatures {
-        compose true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -23,13 +20,8 @@ android {
 
 dependencies {
     implementation project(':core:network')
-    implementation project(':core:data')
-    implementation project(':common:resources')
-    implementation project(':common:utils')
 
-    implementation deps.lifecycle_runtime
-    implementation deps.coil.core
-    implementation deps.coil.compose
-    implementation deps.accompanist.swipe_refresh
-    implementation deps.datetime
+    kapt(deps.room.compiler)
+    api deps.room.runtime
+    api deps.room.ktx
 }

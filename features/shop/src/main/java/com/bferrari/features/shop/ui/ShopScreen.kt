@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,13 +24,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import com.bferrari.common.utils.rememberFlowWithLifecycle
 import com.bferrari.common.utils.toVBucksString
 import com.bferrari.features.shop.R
-import com.bferrari.features.shop.models.EntryRarity
-import com.bferrari.features.shop.models.ShopEntry
-import com.bferrari.features.shop.models.ShopItem
 import com.bferrari.features.shop.viewmodels.ShopUiState
 import com.bferrari.features.shop.viewmodels.ShopViewModel
+import com.bferrari.fortnitehelper.core.data.entities.EntryRarity
+import com.bferrari.fortnitehelper.core.data.entities.ShopEntry
+import com.bferrari.fortnitehelper.core.data.entities.ShopItem
 import com.bferrari.fortnitehelper.resources.components.*
 import com.bferrari.fortnitehelper.resources.theme.Colors
 import com.google.accompanist.insets.statusBarsPadding
@@ -38,7 +40,10 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun ShopScreen(viewModel: ShopViewModel) {
-    val state by viewModel.shopState.collectAsState()
+    val state by rememberFlowWithLifecycle(viewModel.shopState)
+        .collectAsState(
+            initial = ShopUiState.Loading
+        )
 
     when (val shopState: ShopUiState = state) {
         is ShopUiState.Success -> EntriesList(entries = shopState.entries, viewModel = viewModel)
@@ -140,12 +145,12 @@ fun ItemIdentifierView(entry: ShopEntry) {
 }
 
 @Composable
-fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { color ->
+fun RarityView(entry: ShopEntry) = entry.rarity?.color?.let { colorARGB ->
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .size(8.dp)
-            .background(color = color)
+            .background(color = Color(colorARGB))
     )
 }
 
@@ -215,7 +220,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val first = ShopEntry(
         title = "entry 1",
         description = "entry description 1",
-        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
+        rarity = EntryRarity(value = "Legendary", 0xFFF3AF19),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1000,
@@ -226,7 +231,7 @@ class SampleShopEntryProvider: PreviewParameterProvider<ShopEntry> {
     private val second = ShopEntry(
         title = "entry 2",
         description = "entry description 2",
-        rarity = EntryRarity(value = "Legendary", Colors.PurpleLight),
+        rarity = EntryRarity(value = "Legendary", 0xFFF3AF19),
         imageUrl = "",
         items = shopItemList,
         regularPrice = 1200,
