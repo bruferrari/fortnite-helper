@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.32'
+}
+
+apply plugin: 'kotlinx-serialization'
+apply from: '../../deps-general.gradle'
+apply from: '../../config-android.gradle'
+
+android {
+    buildFeatures {
+        compose true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+//        debug {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+    }
+}
+
+dependencies {
+    implementation project(':core:network')
+    implementation project(':core:data')
+    implementation project(':common:resources')
+    implementation project(':common:utils')
+
+    implementation deps.lifecycle_runtime
+    implementation deps.coil.core
+    implementation deps.coil.compose
+    implementation deps.accompanist.swipe_refresh
+}

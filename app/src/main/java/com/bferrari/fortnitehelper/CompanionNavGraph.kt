@@ -7,37 +7,43 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bferrari.features.news.News
 import com.bferrari.features.shop.ui.ShopScreen
 import com.bferrari.fortnitehelper.ui.SplashScreen
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 object MainDestinations {
-    const val SPLASH_ROUTE = "splash"
-    const val SHOP_ROUTE = "shop"
+    const val SplashRoute = "splash"
+    const val ShopRoute = "shop"
+    const val NewsRoute = "news"
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun CompanionNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = MainDestinations.SPLASH_ROUTE
+    startDestination: String = MainDestinations.SplashRoute
 ) {
     val scope = rememberCoroutineScope()
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(MainDestinations.SPLASH_ROUTE) {
+        composable(MainDestinations.SplashRoute) {
             SplashScreen(navController)
         }
 
-        composable(MainDestinations.SHOP_ROUTE) {
+        composable(MainDestinations.ShopRoute) {
             ShopScreen(
                 viewModel = getViewModel {
                     parametersOf(scope)
                 }
             )
+        }
+
+        composable(MainDestinations.NewsRoute) {
+            News()
         }
     }
 }

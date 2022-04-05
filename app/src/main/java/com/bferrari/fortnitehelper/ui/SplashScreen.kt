@@ -60,7 +60,8 @@ fun SplashScreen(navController: NavHostController) {
 
     LaunchedEffect(true) {
         delay(1000)
-        navController.navigate(MainDestinations.SHOP_ROUTE, true)
+//        navController.navigate(MainDestinations.ShopRoute, true)
+        navController.navigate(MainDestinations.NewsRoute, true)
     }
 }
 
