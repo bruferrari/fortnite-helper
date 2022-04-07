@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.bferrari.features.news.News
+import com.bferrari.features.news.ui.News
 import com.bferrari.features.shop.ui.ShopScreen
 import com.bferrari.fortnitehelper.ui.SplashScreen
 import org.koin.androidx.compose.getViewModel
@@ -43,7 +43,11 @@ fun CompanionNavGraph(
         }
 
         composable(MainDestinations.NewsRoute) {
-            News()
+            News(
+                viewModel = getViewModel {
+                    parametersOf(scope)
+                }
+            )
         }
     }
 }

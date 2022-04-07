@@ -1,6 +1,7 @@
 package com.bferrari.fortnitehelper.di
 
 import androidx.room.Room
+import com.bferrari.features.news.NewsService
 import com.bferrari.features.shop.ShopService
 import com.bferrari.fortnitehelper.core.data.dataStore
 import com.bferrari.fortnitehelper.core.data.room.AppDatabase
@@ -14,6 +15,7 @@ object DataModules {
     private val apiModules
         get() = module {
             single { HttpClient.apiService<ShopService>() }
+            single { HttpClient.apiService<NewsService>() }
         }
 
     private val dbModules

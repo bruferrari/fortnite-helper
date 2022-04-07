@@ -29,7 +29,7 @@ class ShopStore(
         if (lastUpdatedAt == null) return
 
         dataStore.edit { prefs ->
-            prefs[SHOP_LAST_UPDATED_AT] = lastUpdatedAt
+            prefs[shopLastUpdatedAt] = lastUpdatedAt
         }
     }
 
@@ -41,8 +41,8 @@ class ShopStore(
                 throw exception
             }
         }.map { prefs ->
-            prefs[SHOP_LAST_UPDATED_AT]
+            prefs[shopLastUpdatedAt]
         }
 
-    private val SHOP_LAST_UPDATED_AT = stringPreferencesKey("last_updated_at")
+    private val shopLastUpdatedAt = stringPreferencesKey("last_updated_at")
 }

@@ -1,6 +1,7 @@
 package com.bferrari.fortnitehelper.di
 
 import android.content.Context
+import com.bferrari.features.news.di.NewsModules
 import com.bferrari.features.shop.di.ShopModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -23,5 +24,6 @@ object DIManager {
         .apply {
             addAll(DataModules.modules)
             addAll(ShopModules.modules)
+            addAll(NewsModules.modules)
         }
 }
